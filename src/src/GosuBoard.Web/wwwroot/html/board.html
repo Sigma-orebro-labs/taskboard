@@ -1,0 +1,9 @@
+﻿<h1>{{ board.name }}</h1>
+
+<ul>
+    <li ng-repeat="issue in board.issues">
+        {{ issue.title }}
+    </li>
+</ul>
+
+<a href="#/Boards">Back to boards list</a>

@@ -1,0 +1,32 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.22823.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{9F5A4E09-05BF-474E-851D-A5ECECCF17F2}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{E8261063-FDFB-47DE-A017-3AAAF4FE1CAB}"
+	ProjectSection(SolutionItems) = preProject
+		global.json = global.json
+	EndProjectSection
+EndProject
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "GosuBoard.Web", "src\GosuBoard.Web\GosuBoard.Web.xproj", "{108D9943-30EF-4FF0-9EA6-611EED971872}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{108D9943-30EF-4FF0-9EA6-611EED971872}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{108D9943-30EF-4FF0-9EA6-611EED971872}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{108D9943-30EF-4FF0-9EA6-611EED971872}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{108D9943-30EF-4FF0-9EA6-611EED971872}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{108D9943-30EF-4FF0-9EA6-611EED971872} = {9F5A4E09-05BF-474E-851D-A5ECECCF17F2}
+	EndGlobalSection
+EndGlobal
