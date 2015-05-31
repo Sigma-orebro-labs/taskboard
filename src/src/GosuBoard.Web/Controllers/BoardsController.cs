@@ -24,14 +24,15 @@ namespace GosuBoard.Web.Controllers
 
                 foreach (var model in models)
                 {
-                    model.IssuesLink = CreateIssuesLink(model.Id);
+                    model.Links.Add(CreateIssuesLink(model.Id));
+                    model.Links.Add(CreateSelfLink(model.Id));
                 }
 
                 return Collection(models);
             }
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("{id}", Name = "GetBoardById")]
         public IActionResult Get(int id)
         {
             using (var context = new BoardContext())
@@ -43,25 +44,59 @@ namespace GosuBoard.Web.Controllers
 
                 var model = board.ToModel();
 
-                model.IssuesLink = CreateIssuesLink(model.Id);
+                model.Links.Add(CreateIssuesLink(model.Id));
+                model.Links.Add(CreateSelfLink(model.Id));
 
                 return new ObjectResult(model);
             }
         }
 
         [HttpPost]
-        public void Post([FromBody]string value)
+        public IActionResult Post(string name)
         {
+            var board = new Board
+            {
+                Name = name
+            };
+
+            using (var context = new BoardContext())
+            {
+                context.Boards.Add(board);
+
+                context.SaveChanges();
+            }
+
+            var boardModel = board.ToModel();
+
+            boardModel.Links.Add(CreateIssuesLink(board.Id));
+            boardModel.Links.Add(CreateSelfLink(board.Id));
+
+            var newResourceHref = Url.Link("GetBoardById", new { id = board.Id });
+
+            return Created(newResourceHref, boardModel);
         }
 
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody]string value)
+        public void Put(int id, [FromBody]string name)
         {
         }
 
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public IActionResult Delete(int id)
         {
+            using (var context = new BoardContext())
+            {
+                var board = context.Boards.FirstOrDefault(x => x.Id == id);
+
+                if (board == null)
+                    return new HttpNotFoundResult();
+
+                context.Boards.Remove(board);
+
+                context.SaveChanges();
+            }
+
+            return new NoContentResult();
         }
         
         private string CreateDefaultLink<T>()
@@ -73,6 +108,12 @@ namespace GosuBoard.Web.Controllers
         {
             var href = Url.Link("BoardIssues", new { boardId = id });
             return new LinkModel("issues", "Issues", href);
+        }
+
+        private LinkModel CreateSelfLink(int id)
+        {
+            var href = Url.Link("GetBoardById", new { id = id });
+            return new LinkModel("self", "Self", href);
         }
 
         private CollectionModel<T> Collection<T>(IEnumerable<T> items)

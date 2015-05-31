@@ -23,9 +23,15 @@ namespace GosuBoard.Web.Infrastructure
                 .ForRelational()
                 .Table("Boards");
 
+            modelBuilder.Entity<Board>()
+                .Property(x => x.Id).ForSqlServer().UseIdentity();
+
             modelBuilder.Entity<Issue>()
                 .ForRelational()
                 .Table("Issues");
+
+            modelBuilder.Entity<Issue>()
+                .Property(x => x.Id).ForSqlServer().UseIdentity();
 
             base.OnModelCreating(modelBuilder);
         }

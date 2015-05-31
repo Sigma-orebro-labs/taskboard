@@ -5,5 +5,11 @@
         <a href="#/boards/{{board.id}}">
             <span>{{ board.name }}</span>
         </a>
+        <i class="fa fa-trash" ng-click="deleteBoard(board)"></i>
     </li>
 </ul>
+
+<form id="create-board-form" ng-submit="createBoard()">
+    <input type="text" name="name" placeholder="Name" ng-model="boardToCreate.name" required />
+    <input type="submit" value="Create" />
+</form>
