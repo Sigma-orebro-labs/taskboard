@@ -8,12 +8,17 @@ namespace GosuBoard.Web.Models
 {
     public class IssueModel
     {
+        public IssueModel()
+        {
+            Links = new List<LinkModel>();
+        }
+
         public int Id { get; set; }
 
         public string Title { get; set; }
 
         public int BoardId { get; set; }
 
-        public LinkModel BoardLink { get; set; }
+        public IList<LinkModel> Links { get; private set; }
     }
 }

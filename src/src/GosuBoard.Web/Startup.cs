@@ -1,13 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Linq;
 using Microsoft.AspNet.Builder;
-using Microsoft.AspNet.Http;
 using Microsoft.Framework.DependencyInjection;
 using GosuBoard.Web.Infrastructure;
 using Microsoft.AspNet.Mvc;
-using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 
 namespace GosuBoard.Web

@@ -10,17 +10,16 @@ using System.Linq;
 
 namespace GosuBoard.Web.Controllers
 {
-    [Route("api/boards", Name = "BoardsController")]
+    [Route("api/[controller]")]
     public class BoardsController : Controller
     {
-        [HttpGet]
+        [HttpGet(Name = "Boards")]
         public CollectionModel<BoardModel> Get()
         {
             using (var context = new BoardContext())
             {
                 var boards = context.Boards.ToList();
                 var models = boards.ToModels();
-                var href = CreateDefaultLink<BoardsController>();
 
                 foreach (var model in models)
                 {
@@ -28,11 +27,11 @@ namespace GosuBoard.Web.Controllers
                     model.Links.Add(CreateSelfLink(model.Id));
                 }
 
-                return Collection(models);
+                return new CollectionModel<BoardModel>(models, Url.Link("Boards", null));
             }
         }
 
-        [HttpGet("{id}", Name = "GetBoardById")]
+        [HttpGet("{id}", Name = "BoardById")]
         public IActionResult Get(int id)
         {
             using (var context = new BoardContext())
@@ -71,7 +70,7 @@ namespace GosuBoard.Web.Controllers
             boardModel.Links.Add(CreateIssuesLink(board.Id));
             boardModel.Links.Add(CreateSelfLink(board.Id));
 
-            var newResourceHref = Url.Link("GetBoardById", new { id = board.Id });
+            var newResourceHref = Url.Link("BoardById", new { id = board.Id });
 
             return Created(newResourceHref, boardModel);
         }
@@ -98,27 +97,17 @@ namespace GosuBoard.Web.Controllers
 
             return new NoContentResult();
         }
-        
-        private string CreateDefaultLink<T>()
-        {
-            return Url.Link("BoardsController", null);
-        }
 
         private LinkModel CreateIssuesLink(int id)
         {
-            var href = Url.Link("BoardIssues", new { boardId = id });
+            var href = Url.Link("IssuesByBoardId", new { boardId = id });
             return new LinkModel("issues", "Issues", href);
         }
 
         private LinkModel CreateSelfLink(int id)
         {
-            var href = Url.Link("GetBoardById", new { id = id });
+            var href = Url.Link("BoardById", new { id = id });
             return new LinkModel("self", "Self", href);
-        }
-
-        private CollectionModel<T> Collection<T>(IEnumerable<T> items)
-        {
-            return new CollectionModel<T>(items, CreateDefaultLink<BoardsController>());
         }
     }
 }

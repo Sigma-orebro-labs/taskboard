@@ -3,7 +3,13 @@
 <ul>
     <li ng-repeat="issue in board.issues">
         {{ issue.title }}
+        <i class="fa fa-trash" ng-click="deleteIssue(issue)"></i>
     </li>
 </ul>
+
+<form id="create-issue-form" ng-submit="createIssue()">
+    <input type="text" name="name" placeholder="Title" ng-model="issueToCreate.title" required />
+    <input type="submit" value="Create" />
+</form>
 
 <a href="#/Boards">Back to boards list</a>

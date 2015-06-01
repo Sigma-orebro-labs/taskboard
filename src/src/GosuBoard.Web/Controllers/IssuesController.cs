@@ -21,7 +21,7 @@ namespace GosuBoard.Web.Controllers
             return GetCollection(href);
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("{id}", Name = "IssueById")]
         public IActionResult Get(int id)
         {
             using (var context = new BoardContext())
@@ -33,7 +33,8 @@ namespace GosuBoard.Web.Controllers
 
                 var model = issue.ToModel();
 
-                model.BoardLink = CreateBoardLink(issue.BoardId);
+                model.Links.Add(CreateBoardLink(issue.BoardId));
+                model.Links.Add(CreateSelfLink(issue.Id));
 
                 return new ObjectResult(model);
             }
@@ -41,22 +42,49 @@ namespace GosuBoard.Web.Controllers
 
         private LinkModel CreateBoardLink(int boardId)
         {
-            var href = Url.Link("BoardsController", new { id = boardId });
+            var href = Url.Link("BoardsById", new { id = boardId });
             return new LinkModel("board", "Board", href);
         }
 
+        private LinkModel CreateSelfLink(int id)
+        {
+            var href = Url.Link("IssueById", new { id = id });
+            return new LinkModel("self", "Self", href);
+        }
+
         // GET api/values/5
-        [Route("~/api/Boards/{boardId}/Issues", Name = "BoardIssues")]
+        [Route("~/api/Boards/{boardId}/Issues", Name = "IssuesByBoardId")]
         [HttpGet("{boardId}")]
         public CollectionModel<IssueModel> GetByBoardId(int boardId)
         {
-            var href = Url.Link("BoardIssues", new { boardId });
+            var href = Url.Link("IssuesByBoardId", new { boardId });
             return GetCollection(href, x => x.BoardId == boardId);
         }
 
-        [HttpPost()]
-        public void Post([FromBody]string value)
+        [HttpPost("~/api/Boards/{boardId}/Issues")]
+        public IActionResult Post(int boardId, string title)
         {
+            var issue = new Issue
+            {
+                Title = title,
+                BoardId = boardId
+            };
+
+            using (var context = new BoardContext())
+            {
+                context.Issues.Add(issue);
+
+                context.SaveChanges();
+            }
+
+            var issueModel = issue.ToModel();
+
+            issueModel.Links.Add(CreateBoardLink(issue.BoardId));
+            issueModel.Links.Add(CreateSelfLink(issue.Id));
+
+            var newResourceHref = Url.Link("IssueById", new { id = issue.Id });
+
+            return Created(newResourceHref, issueModel);
         }
 
         [HttpPut("{id}")]
@@ -65,8 +93,21 @@ namespace GosuBoard.Web.Controllers
         }
 
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public IActionResult Delete(int id)
         {
+            using (var context = new BoardContext())
+            {
+                var issue = context.Issues.FirstOrDefault(x => x.Id == id);
+
+                if (issue == null)
+                    return new HttpNotFoundResult();
+
+                context.Issues.Remove(issue);
+
+                context.SaveChanges();
+            }
+
+            return new NoContentResult();
         }
 
         private CollectionModel<IssueModel> GetCollection(string href, Expression<Func<Issue, bool>> predicate = null)
@@ -82,7 +123,8 @@ namespace GosuBoard.Web.Controllers
 
                 foreach (var model in models)
                 {
-                    model.BoardLink = CreateBoardLink(model.BoardId);
+                    model.Links.Add(CreateBoardLink(model.BoardId));
+                    model.Links.Add(CreateSelfLink(model.Id));
                 }
 
                 return new CollectionModel<IssueModel>(models, href);
