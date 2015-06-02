@@ -33,6 +33,13 @@ namespace GosuBoard.Web.Infrastructure
             modelBuilder.Entity<Issue>()
                 .Property(x => x.Id).ForSqlServer().UseIdentity();
 
+            modelBuilder.Entity<IssueState>()
+                .ForRelational()
+                .Table("IssueStates");
+
+            modelBuilder.Entity<IssueState>()
+                .Property(x => x.Id).ForSqlServer().UseIdentity();
+
             base.OnModelCreating(modelBuilder);
         }
 
@@ -44,6 +51,11 @@ namespace GosuBoard.Web.Infrastructure
         public DbSet<Issue> Issues
         {
             get { return Set<Issue>(); }
+        }
+
+        public DbSet<IssueState> IssueStates
+        {
+            get { return Set<IssueState>(); }
         }
     }
 }

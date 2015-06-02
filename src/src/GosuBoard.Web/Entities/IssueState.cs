@@ -1,8 +1,8 @@
 ﻿namespace GosuBoard.Web.Entities
 {
-    public class Issue : Entity
+    public class IssueState : Entity
     {
-        public string Title { get; set; }
+        public string Name { get; set; }
 
         public int BoardId { get; set; }
     }

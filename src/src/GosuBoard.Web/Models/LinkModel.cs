@@ -4,7 +4,7 @@
     {
         public LinkModel(string rel, string prompt, string href)
         {
-            Rel = rel;
+            Rel = rel.ToLower();
             Prompt = prompt;
             Href = href;
         }
