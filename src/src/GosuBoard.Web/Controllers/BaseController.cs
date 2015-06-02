@@ -11,12 +11,6 @@ namespace GosuBoard.Web.Controllers
 {
     public class BaseController : Controller
     {
-        protected IActionResult Created(EntityModel model)
-        {
-            var href = model.GetSelfHref();
-            return Created(href, model);
-        }
-
         protected IActionResult DeleteById<T>(int id)
             where T : Entity
         {
@@ -35,7 +29,6 @@ namespace GosuBoard.Web.Controllers
             }
 
             return new NoContentResult();
-
         }
     }
 }

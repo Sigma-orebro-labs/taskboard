@@ -1,11 +1,8 @@
-﻿using GosuBoard.Web.Entities;
-using GosuBoard.Web.Extensions;
+﻿using GosuBoard.Web.Controllers.Results;
+using GosuBoard.Web.Entities;
 using GosuBoard.Web.Infrastructure;
-using GosuBoard.Web.Mapping;
 using GosuBoard.Web.Models;
 using Microsoft.AspNet.Mvc;
-using System;
-using System.Collections.Generic;
 using System.Linq;
 
 namespace GosuBoard.Web.Controllers
@@ -18,9 +15,8 @@ namespace GosuBoard.Web.Controllers
         {
             using (var context = new BoardContext())
             {
-                var models = context.Boards.Select(ToModel);
-                
-                return new CollectionModel<BoardModel>(models, Url.Link("Boards", null));
+                var href = Url.Link("Boards", null);
+                return Result.Collection(href, context.Boards);
             }
         }
 
@@ -34,7 +30,7 @@ namespace GosuBoard.Web.Controllers
                 if (board == null)
                     return HttpNotFound();
 
-                return new ObjectResult(ToModel(board));
+                return Result.Object(board);
             }
         }
 
@@ -53,14 +49,7 @@ namespace GosuBoard.Web.Controllers
                 context.SaveChanges();
             }
 
-            var boardModel = board.ToModel();
-
-            boardModel.Links.Add(CreateIssuesLink(board.Id));
-            boardModel.Links.Add(CreateSelfLink(board.Id));
-
-            var newResourceHref = Url.Link("BoardById", new { id = board.Id });
-
-            return Created(newResourceHref, boardModel);
+            return Result.Created(board);
         }
 
         [HttpPut("{id}")]
@@ -74,26 +63,9 @@ namespace GosuBoard.Web.Controllers
             return DeleteById<Board>(id);
         }
 
-        private LinkModel CreateIssuesLink(int id)
+        private BoardModelResultFactory Result
         {
-            var href = Url.Link("IssuesByBoardId", new { boardId = id });
-            return new LinkModel("issues", "Issues", href);
-        }
-
-        private LinkModel CreateSelfLink(int id)
-        {
-            var href = Url.Link("BoardById", new { id = id });
-            return new LinkModel("self", "Self", href);
-        }
-
-        private BoardModel ToModel(Board board)
-        {
-            var model = board.ToModel();
-
-            model.Links.Add(CreateIssuesLink(model.Id));
-            model.Links.Add(CreateSelfLink(model.Id));
-
-            return model;
+            get { return new BoardModelResultFactory(Url); }
         }
     }
 }

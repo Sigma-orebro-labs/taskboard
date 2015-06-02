@@ -1,4 +1,5 @@
-﻿using GosuBoard.Web.Entities;
+﻿using GosuBoard.Web.Controllers.Results;
+using GosuBoard.Web.Entities;
 using GosuBoard.Web.Infrastructure;
 using GosuBoard.Web.Mapping;
 using GosuBoard.Web.Models;
@@ -20,7 +21,7 @@ namespace GosuBoard.Web.Controllers
                 if (state == null)
                     return HttpNotFound();
 
-                return new ObjectResult(ToModel(state));
+                return Result.Object(state);
             }
         }
 
@@ -32,9 +33,9 @@ namespace GosuBoard.Web.Controllers
 
             using (var context = new BoardContext())
             {
-                var models = context.IssueStates.Where(x => x.BoardId == boardId).Select(ToModel);
+                var issueStates = context.IssueStates.Where(x => x.BoardId == boardId);
 
-                return new CollectionModel<IssueStateModel>(models, href);
+                return Result.Collection(href, issueStates);
             }
         }
 
@@ -54,7 +55,7 @@ namespace GosuBoard.Web.Controllers
                 context.SaveChanges();
             }
 
-            return Created(ToModel(State));
+            return Result.Created(State);
         }
 
         [HttpPut("{id}")]
@@ -67,27 +68,10 @@ namespace GosuBoard.Web.Controllers
         {
             return DeleteById<IssueState>(id);
         }
-
-        private LinkModel CreateBoardLink(int boardId)
+        
+        private IssueStateModelResultFactory Result
         {
-            var href = Url.Link("BoardById", new { id = boardId });
-            return new LinkModel("board", "Board", href);
-        }
-
-        private LinkModel CreateSelfLink(int id)
-        {
-            var href = Url.Link("StateById", new { id = id });
-            return new LinkModel("self", "Self", href);
-        }
-
-        private IssueStateModel ToModel(IssueState State)
-        {
-            var model = State.ToModel();
-
-            model.Links.Add(CreateBoardLink(State.BoardId));
-            model.Links.Add(CreateSelfLink(State.Id));
-
-            return model;
+            get { return new IssueStateModelResultFactory(Url); }
         }
     }
 }

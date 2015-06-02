@@ -1,4 +1,5 @@
-﻿using GosuBoard.Web.Entities;
+﻿using GosuBoard.Web.Controllers.Results;
+using GosuBoard.Web.Entities;
 using GosuBoard.Web.Infrastructure;
 using GosuBoard.Web.Mapping;
 using GosuBoard.Web.Models;
@@ -29,7 +30,7 @@ namespace GosuBoard.Web.Controllers
                 if (issue == null)
                     return HttpNotFound();
 
-                return new ObjectResult(ToModel(issue));
+                return Result.Object(issue);
             }
         }
 
@@ -56,8 +57,8 @@ namespace GosuBoard.Web.Controllers
 
                 context.SaveChanges();
             }
-            
-            return Created(ToModel(issue));
+
+            return Result.Created(issue);
         }
 
         [HttpPut("{id}")]
@@ -80,32 +81,12 @@ namespace GosuBoard.Web.Controllers
                 if (predicate != null)
                     issues = issues.Where(predicate);
 
-                var models = issues.Select(ToModel);
-
-                return new CollectionModel<IssueModel>(models, href);
+                return Result.Collection(href, issues);
             }
         }
-
-        private LinkModel CreateBoardLink(int boardId)
+        private IssueModelResultFactory Result
         {
-            var href = Url.Link("BoardById", new { id = boardId });
-            return new LinkModel("board", "Board", href);
-        }
-
-        private LinkModel CreateSelfLink(int id)
-        {
-            var href = Url.Link("IssueById", new { id = id });
-            return new LinkModel("self", "Self", href);
-        }
-
-        private IssueModel ToModel(Issue issue)
-        {
-            var issueModel = issue.ToModel();
-
-            issueModel.AddLink(CreateBoardLink(issue.BoardId));
-            issueModel.AddLink(CreateSelfLink(issue.Id));
-
-            return issueModel;
+            get { return new IssueModelResultFactory(Url); }
         }
     }
 }
