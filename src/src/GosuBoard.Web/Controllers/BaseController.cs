@@ -18,12 +18,12 @@ namespace GosuBoard.Web.Controllers
             {
                 var set = context.Set<T>();
 
-                var state = set.FirstOrDefault(x => x.Id == id);
+                var entity = set.FirstOrDefault(x => x.Id == id);
 
-                if (state == null)
+                if (entity == null)
                     return new HttpNotFoundResult();
 
-                set.Remove(state);
+                set.Remove(entity);
 
                 context.SaveChanges();
             }

@@ -19,6 +19,7 @@ namespace GosuBoard.Web.Controllers.Results
             var BoardModel = entity.ToModel();
 
             BoardModel.AddLink(CreateIssuesLink(entity.Id));
+            BoardModel.AddLink(CreateStatesLink(entity.Id));
             BoardModel.AddLink(CreateSelfLink(entity.Id));
 
             return BoardModel;
@@ -28,6 +29,12 @@ namespace GosuBoard.Web.Controllers.Results
         {
             var href = _url.Link("IssuesByBoardId", new { boardId = id });
             return new LinkModel("issues", "Issues", href);
+        }
+
+        private LinkModel CreateStatesLink(int id)
+        {
+            var href = _url.Link("StatesByBoardId", new { boardId = id });
+            return new LinkModel("states", "States", href);
         }
 
         private LinkModel CreateSelfLink(int id)
