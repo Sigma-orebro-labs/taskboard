@@ -7,7 +7,7 @@ using System.Linq;
 
 namespace GosuBoard.Web.Controllers
 {
-    [Route("api/[controller]", Name = "StatesController")]
+    [Route("api/issuestates")]
     public class IssueStatesController : BaseController
     {
         [HttpGet("{id}", Name = "StateById")]
@@ -25,8 +25,7 @@ namespace GosuBoard.Web.Controllers
         }
 
         // GET api/values/5
-        [Route("~/api/Boards/{boardId}/States", Name = "StatesByBoardId")]
-        [HttpGet("{boardId}")]
+        [HttpGet("~/api/boards/{boardId}/states", Name = "StatesByBoardId")]
         public CollectionModel<IssueStateModel> GetByBoardId(int boardId)
         {
             var href = Url.Link("StatesByBoardId", new { boardId });
@@ -39,7 +38,7 @@ namespace GosuBoard.Web.Controllers
             }
         }
 
-        [HttpPost("~/api/Boards/{boardId}/States")]
+        [HttpPost("~/api/boards/{boardId}/states")]
         public IActionResult Post(int boardId, string name)
         {
             var State = new IssueState

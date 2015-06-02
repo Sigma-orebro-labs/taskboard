@@ -10,7 +10,7 @@ using System.Linq;
 
 namespace GosuBoard.Web.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/boards")]
     public class BoardsController : BaseController
     {
         [HttpGet(Name = "Boards")]

@@ -9,13 +9,13 @@ using System.Linq.Expressions;
 
 namespace GosuBoard.Web.Controllers
 {
-    [Route("api/[controller]", Name = "IssuesController")]
+    [Route("api/issues")]
     public class IssuesController : BaseController
     {
-        [HttpGet()]
+        [HttpGet(Name = "Issues")]
         public CollectionModel<IssueModel> Get()
         {
-            var href = Url.Link("IssuesController", null);
+            var href = Url.Link("Issues", null);
             return GetCollection(href);
         }
 
@@ -34,15 +34,14 @@ namespace GosuBoard.Web.Controllers
         }
 
         // GET api/values/5
-        [Route("~/api/Boards/{boardId}/Issues", Name = "IssuesByBoardId")]
-        [HttpGet("{boardId}")]
+        [HttpGet("~/api/boards/{boardId}/issues", Name = "IssuesByBoardId")]
         public CollectionModel<IssueModel> GetByBoardId(int boardId)
         {
             var href = Url.Link("IssuesByBoardId", new { boardId });
             return GetCollection(href, x => x.BoardId == boardId);
         }
 
-        [HttpPost("~/api/Boards/{boardId}/Issues")]
+        [HttpPost("~/api/boards/{boardId}/issues")]
         public IActionResult Post(int boardId, string title)
         {
             var issue = new Issue
