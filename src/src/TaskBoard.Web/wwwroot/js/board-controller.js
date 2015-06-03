@@ -53,6 +53,19 @@ angular.module("gosuboard").controller("boardController", function ($scope, $htt
     };
 
     $scope.changeState = function (issue, state) {
-        
+        issue.stateId = state.id;
+    };
+
+    $scope.getStateName = function (stateId) {
+
+        if (!stateId) {
+            return "No state";
+        }
+
+        var state = _.find($scope.board.states, function (state) {
+            return state.id == stateId;
+        });
+
+        return state.name;
     };
 });

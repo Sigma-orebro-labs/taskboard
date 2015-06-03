@@ -7,6 +7,7 @@
         {{ issue.title }}
         <i class="fa fa-trash" ng-click="deleteIssue(issue)"></i>
 
+        <span class="current-issue-state">Current state: {{ getStateName(issue.stateId) }}</span>
         <ul ng-repeat="state in board.states">
             <li>
                 <a ng-click="changeState(issue, state)">{{ state.name }}</a>
