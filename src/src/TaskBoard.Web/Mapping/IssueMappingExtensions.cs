@@ -18,7 +18,8 @@ namespace GosuBoard.Web.Mapping
             {
                 Id = issue.Id,
                 Title = issue.Title,
-                BoardId = issue.BoardId
+                BoardId = issue.BoardId,
+                StateId = issue.StateId
             };
         }
     }

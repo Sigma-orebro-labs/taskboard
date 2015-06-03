@@ -19,6 +19,7 @@ namespace GosuBoard.Web.Controllers.Results
             var issueModel = entity.ToModel();
 
             issueModel.AddLink(CreateBoardLink(entity.BoardId));
+            issueModel.AddLink(CreateIssueStateTransitionsLink(entity.BoardId, entity.Id));
             issueModel.AddLink(CreateSelfLink(entity.Id));
 
             return issueModel;
@@ -34,6 +35,12 @@ namespace GosuBoard.Web.Controllers.Results
         {
             var href = _url.Link("IssueById", new { id = id });
             return new LinkModel("self", "Self", href);
+        }
+
+        private LinkModel CreateIssueStateTransitionsLink(int boardId, int issueId)
+        {
+            var href = _url.Link("IssueStateTransitions", new { boardId = boardId, issueId = issueId });
+            return new LinkModel("statetransitions", "State transitions", href);
         }
     }
 }

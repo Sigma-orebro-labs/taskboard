@@ -53,7 +53,15 @@ angular.module("gosuboard").controller("boardController", function ($scope, $htt
     };
 
     $scope.changeState = function (issue, state) {
-        issue.stateId = state.id;
+
+        var href = gb.href("statetransitions", issue);
+
+        $http(gb.formDataRequest('POST', href, {
+            issueId: issue.id,
+            stateId: state.id
+        })).success(function () {
+            issue.stateId = state.id;
+        });
     };
 
     $scope.getStateName = function (stateId) {

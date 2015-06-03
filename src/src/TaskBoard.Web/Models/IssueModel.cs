@@ -6,6 +6,6 @@
 
         public int BoardId { get; set; }
 
-        public int StateId { get; set; }
+        public int? StateId { get; set; }
     }
 }

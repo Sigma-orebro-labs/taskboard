@@ -61,6 +61,24 @@ namespace GosuBoard.Web.Controllers
             return Result.Created(issue);
         }
 
+        [HttpPost("~/api/boards/{boardId}/issues/{issueId}/statetransitions", Name = "IssueStateTransitions")]
+        public IActionResult Post(int boardId, int issueId, int stateId)
+        {
+            using (var context = new BoardContext())
+            {
+                var issue = context.Issues.FirstOrDefault(x => x.Id == issueId);
+
+                if (issue == null)
+                    return HttpNotFound();
+
+                issue.StateId = stateId;
+
+                context.SaveChanges();
+            }
+
+            return new NoContentResult();
+        }
+
         [HttpPut("{id}")]
         public void Put(int id, [FromBody]string value)
         {
