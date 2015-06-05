@@ -74,6 +74,6 @@ angular.module("gosuboard").controller("boardController", function ($scope, $htt
             return state.id == stateId;
         });
 
-        return state.name;
+        return state ? state.name : null;
     };
 });

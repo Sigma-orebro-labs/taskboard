@@ -30,7 +30,15 @@ namespace GosuBoard.Web
 
         public void Configure(IApplicationBuilder app)
         {
-            app.UseMvc()
+            app.UseMvc(routes =>
+            {
+                // route1
+                routes.MapRoute(
+                    name: "home",
+                    template: "",
+                    defaults: new { controller = "Home", action = "Index" }
+                );
+            })
                .UseStaticFiles();
         }
     }
