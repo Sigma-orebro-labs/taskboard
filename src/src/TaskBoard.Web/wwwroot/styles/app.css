@@ -1,10 +1,9 @@
-h1 {
-    font-size: 30px;
+.nav, .pagination, .carousel, .panel-title a { 
+    cursor: pointer; 
 }
 
-h2 {
-    font-size: 25px;
-    margin-bottom: 10px;
+input[type=text] {
+    padding-left: 5px;
 }
 
 .state-column {
@@ -32,7 +31,7 @@ ul {
     width: 100%;
     box-sizing: border-box;
     display: inline-block;
-    margin-top: 10px;
+    margin-bottom: 10px;
     padding: 10px;
 }
 
@@ -52,6 +51,14 @@ ul {
 #state-column-list {
     display: inline-block;
     vertical-align: top;
+}
+
+#state-column-list h2 {
+    margin-top: 0;
+}
+
+#state-column-list ul {
+    padding-left: 0;
 }
 
 #create-state-form {

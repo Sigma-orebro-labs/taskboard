@@ -1,3 +1,3 @@
-angular.module("gosuboard").controller("appController", function ($scope, $http) {
+angular.module("taskboard").controller("appController", function ($scope, $http) {
 
 });

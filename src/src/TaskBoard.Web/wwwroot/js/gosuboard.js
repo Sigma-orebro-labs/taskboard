@@ -1,6 +1,6 @@
 var gb = gb || {};
 
-var app = angular.module("gosuboard", ["ngRoute", "ngTouch"]);
+var app = angular.module("taskboard", ["ngRoute", "ngTouch", "ui.bootstrap"]);
 
 app.config(['$routeProvider', function ($routeProvider) {
 

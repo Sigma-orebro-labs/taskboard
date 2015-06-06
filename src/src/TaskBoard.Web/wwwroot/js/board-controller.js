@@ -1,4 +1,4 @@
-angular.module("gosuboard").controller("boardController", function ($scope, $http, $routeParams, $q) {
+angular.module("taskboard").controller("boardController", function ($scope, $http, $routeParams, $q) {
 
     var data = {};
 
