@@ -1,4 +1,4 @@
-angular.module("taskboard").controller("boardController", function ($scope, $http, $routeParams, $q, alertService) {
+angular.module("taskboard").controller("boardController", function ($scope, $http, $routeParams, $q, $modal, alertService, promptService) {
     
     var data = {};
 
@@ -47,24 +47,30 @@ angular.module("taskboard").controller("boardController", function ($scope, $htt
 
     $scope.deleteIssue = function (column, issue) {
         var href = gb.href("self", issue);
-
-        $http.delete(href).success(function () {
-            column.removeIssue(issue);
-        });
+        
+        promptService.showDanger("Delete issue?", "Do you really want to delete the issue?")
+            .then(function () {
+                $http.delete(href).success(function () {
+                    column.removeIssue(issue);
+                });
+            });
     };
 
     $scope.deleteColumn = function (column) {
 
         if (column.issues.length > 0) {
-            alertService.show("danger", "The state cannot be deleted since there are issues currently in that state.");
+            alertService.showError("The state cannot be deleted since there are issues currently in that state.");
             return;
         }
 
-        var href = gb.href("self", column.state);
+        promptService.showDanger("Delete state?", "Do you really want to delete the state?")
+            .then(function () {
+                var href = gb.href("self", column.state);
 
-        $http.delete(href).success(function () {
-            var index = $scope.board.removeColumn(column);
-        });
+                $http.delete(href).success(function () {
+                    var index = $scope.board.removeColumn(column);
+                });
+            });
     };
 
     $scope.deleteState = function (state) {

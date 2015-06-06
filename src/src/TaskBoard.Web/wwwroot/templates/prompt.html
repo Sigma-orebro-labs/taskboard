@@ -1,0 +1,12 @@
+﻿<header class="modal-header">
+    <h3 class="modal-title">{{ model.title }}</h3>
+</header>
+<section class="modal-body">
+
+    <p>{{ model.prompt }}</p>
+
+</section>
+<footer class="modal-footer">
+    <a class="btn" ng-class="model.confirmButtonClass" ng-click="$close()">OK</a>
+    <a class="btn btn-default" ng-click="$dismiss()">Cancel</a>
+</footer>

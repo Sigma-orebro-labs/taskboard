@@ -20,7 +20,7 @@
 
     <section ng-view></section>
 
-    <aside ng-controller="AlertController">
+    <aside id="alerts" ng-controller="AlertController">
         <alert ng-repeat="alert in alerts" type="{{alert.type}}">
             {{alert.msg}}
             <button type="button" class="close" data-dismiss="alert" ng-if="alert.isClosable" ng-click="closeAlert(alert)">
@@ -36,6 +36,7 @@
     <script type='text/javascript' src='../js/lib/lodash.js'></script>
     <script type='text/javascript' src='../js/taskboard.js'></script>
     <script type='text/javascript' src='../js/services/alert-service.js'></script>
+    <script type='text/javascript' src='../js/services/prompt-service.js'></script>
     <script type='text/javascript' src='../js/controller-common.js'></script>
     <script type='text/javascript' src='../js/app-controller.js'></script>
     <script type='text/javascript' src='../js/alert-controller.js'></script>

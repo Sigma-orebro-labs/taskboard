@@ -70,3 +70,9 @@ ul {
 #create-state-form [type=submit] {
     display: none;
 }
+
+#alerts {
+    position: fixed;
+    right: 10px;
+    top: 10px;
+}
