@@ -43,12 +43,13 @@ namespace GosuBoard.Web.Controllers
         }
 
         [HttpPost("~/api/boards/{boardId}/issues")]
-        public IActionResult Post(int boardId, string title)
+        public IActionResult Post(int boardId, int? stateId, string title)
         {
             var issue = new Issue
             {
                 Title = title,
-                BoardId = boardId
+                BoardId = boardId,
+                StateId = stateId
             };
 
             using (var context = new BoardContext())

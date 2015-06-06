@@ -24,10 +24,16 @@ angular.module("gosuboard").controller("boardController", function ($scope, $htt
         });
     });
 
-    $scope.createIssue = function () {
-        $http(gb.formDataRequest('POST', getIssuesHref(), $scope.issueToCreate)).success(function (data) {
+    $scope.createIssue = function (column) {
+
+        var issueToCreate = column.getIssueToCreate();
+        
+        $http(gb.formDataRequest('POST', getIssuesHref(), issueToCreate)).success(function (data) {
             $scope.board.issues.push(data);
-            $scope.boardViewModel.addIssue(data);
+            
+            column.addIssue(data);
+            column.clearCreateIssueForm();
+           
             $scope.issueToCreate = {};
         });
     };
@@ -39,13 +45,13 @@ angular.module("gosuboard").controller("boardController", function ($scope, $htt
         });
     };
 
-    $scope.deleteIssue = function (issue) {
+    $scope.deleteIssue = function (column, issue) {
         var href = gb.href("self", issue);
 
         $http.delete(href).success(function () {
             var index = $scope.board.issues.indexOf(issue);
             $scope.board.issues.splice(index, 1);
-            $scope.boardViewModel.removeIssue(issue);
+            column.removeIssue(issue);
         });
     };
 
@@ -66,7 +72,7 @@ angular.module("gosuboard").controller("boardController", function ($scope, $htt
             issueId: issue.id,
             stateId: state.id
         })).success(function () {
-            issue.stateId = state.id;
+            $scope.boardViewModel.changeState(issue, state);
         });
     };
 

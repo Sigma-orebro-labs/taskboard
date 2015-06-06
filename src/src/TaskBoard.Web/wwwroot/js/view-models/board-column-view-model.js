@@ -4,8 +4,21 @@ gb.viewModels.boardColumnViewModel = gb.viewModels.boardColumnViewModel || {};
 
 gb.viewModels.boardColumnViewModel.create = function (state, issues) {
 
+    var issueToCreate = {};
+
     function addIssue(issue) {
         issues.push(issue);
+    }
+
+    function getIssueToCreate() {
+        return {
+            title: issueToCreate.title,
+            stateId: state.id
+        };
+    }
+
+    function clearCreateIssueForm() {
+        issueToCreate.title = null;
     }
 
     function removeIssue(issue) {
@@ -13,8 +26,12 @@ gb.viewModels.boardColumnViewModel.create = function (state, issues) {
         issues.splice(index, 1);
     }
 
-    function isMatch(issue) {
-        return state.id == issues.stateId || !state.id && !issue.stateId
+    function isMatchForIssue(issue) {
+        return isMatchForState(issue.stateId);
+    }
+
+    function isMatchForState(stateId) {
+        return state.id == stateId || !state.id && !stateId
     }
 
     function isVisible() {
@@ -26,11 +43,15 @@ gb.viewModels.boardColumnViewModel.create = function (state, issues) {
     }
 
     return {
+        issueToCreate: issueToCreate,
+        getIssueToCreate: getIssueToCreate,
         issues: issues,
         addIssue: addIssue,
         removeIssue: removeIssue,
-        isMatch: isMatch,
+        isMatchForIssue: isMatchForIssue,
+        isMatchForState: isMatchForState,
         isVisible: isVisible,
-        name: name
+        name: name,
+        clearCreateIssueForm: clearCreateIssueForm
     };
 };

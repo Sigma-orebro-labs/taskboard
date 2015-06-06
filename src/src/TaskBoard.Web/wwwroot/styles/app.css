@@ -1,0 +1,47 @@
+h1 {
+    font-size: 30px;
+}
+
+h2 {
+    font-size: 25px;
+    margin-bottom: 10px;
+}
+
+.state-column {
+    display: inline-block;
+    height: 100%;
+    vertical-align: top;
+    margin: 20px;
+    width: 240px;
+}
+
+.create-issue-form [type=submit] {
+    display: none;
+}
+
+.create-issue-form input {
+    display: inline-block;
+    width: 100%;
+}
+
+ul {
+    list-style: none;
+}
+
+.issue {
+    border: 1px solid black;
+    width: 100%;
+    box-sizing: border-box;
+    display: inline-block;
+    margin-top: 10px;
+    padding: 10px;
+}
+
+.issue menu {
+    margin-top: 15px;
+}
+
+.issue menu li {
+    display: inline-block;
+    margin-right: 10px;
+}

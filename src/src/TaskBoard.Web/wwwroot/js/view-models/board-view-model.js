@@ -29,10 +29,17 @@ gb.viewModels.boardViewModel = gb.viewModels.boardViewModel || {};
         });
     }
 
-    function getMatchingColumn(issue, columns) {
+    function getColumnForIssue(issue, columns) {
         return _.find(columns, function (c) {
-            return c.isMatch(issue);
+            return c.isMatchForIssue(issue);
         });
+    }
+
+    function getColumnForState(state, columns) {
+        var a = _.find(columns, function (c) {
+            return c.isMatchForState(state.id);
+        });
+        return a;
     }
 
     gb.viewModels.boardViewModel.create = function (issues, states) {
@@ -42,13 +49,13 @@ gb.viewModels.boardViewModel = gb.viewModels.boardViewModel || {};
         addNoStateColumn(issues, columns);
 
         function addIssue(issue) {
-            var column = getMatchingColumn(issue, columns);
+            var column = getColumnForIssue(issue, columns);
 
             column.addIssue(issue);
         }
 
         function removeIssue(issue) {
-            var column = getMatchingColumn(issue, columns);
+            var column = getColumnForIssue(issue, columns);
 
             column.removeIssue(issue);
         }
@@ -59,11 +66,22 @@ gb.viewModels.boardViewModel = gb.viewModels.boardViewModel || {};
             });
         }
 
+        function changeState(issue, state) {
+            var currentColumn = getColumnForIssue(issue, columns);
+            var newColumn = getColumnForState(state, columns);
+
+            currentColumn.removeIssue(issue);
+            newColumn.addIssue(issue);
+
+            issue.stateId = state.id;
+        }
+
         return {
             columns: columns,
             getVisibleColumns: getVisibleColumns,
             addIssue: addIssue,
-            removeIssue: removeIssue
+            removeIssue: removeIssue,
+            changeState: changeState
         };
     };
 })();

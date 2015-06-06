@@ -1,37 +1,32 @@
 ﻿<h1>{{ board.name }}</h1>
 
 <ul>
-    <li ng-repeat="column in boardViewModel.getVisibleColumns()">
+    <li class="state-column" ng-repeat="column in boardViewModel.getVisibleColumns()">
         <h2>{{ column.name() }}</h2>
+
+        <form class="create-issue-form" ng-submit="createIssue(column)">
+            <input type="text" name="name" placeholder="Add new issue" ng-model="column.issueToCreate.title" required />
+            <input type="submit" value="Create" />
+        </form>
+
         <ul>
-            <li ng-repeat="issue in column.issues">
+            <li class="issue" ng-repeat="issue in column.issues">
                 {{ issue.title }}
+                <i class="fa fa-trash" ng-click="deleteIssue(column, issue)"></i>
+
+                <menu>
+                    <span>Move to:</span>
+                    <ul>
+                        <li ng-repeat="state in board.states">
+                            <a ng-click="changeState(issue, state)">{{ state.name }}</a>
+                        </li>
+                    </ul>
+                </menu>
+
             </li>
         </ul>
     </li>
 </ul>
-
-
-<h2>Issues</h2>
-<ul>
-    <li ng-repeat="issue in board.issues">
-        {{ issue.title }}
-        <i class="fa fa-trash" ng-click="deleteIssue(issue)"></i>
-
-        <span class="current-issue-state">Current state: {{ getStateName(issue.stateId) }}</span>
-        <ul ng-repeat="state in board.states">
-            <li>
-                <a ng-click="changeState(issue, state)">{{ state.name }}</a>
-            </li>
-        </ul>
-
-    </li>
-</ul>
-
-<form id="create-issue-form" ng-submit="createIssue()">
-    <input type="text" name="name" placeholder="Title" ng-model="issueToCreate.title" required />
-    <input type="submit" value="Create" />
-</form>
 
 <h2>States</h2>
 <ul>
