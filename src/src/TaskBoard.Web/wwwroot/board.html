@@ -1,5 +1,16 @@
 ﻿<h1>{{ board.name }}</h1>
 
+<ul>
+    <li ng-repeat="column in boardViewModel.getVisibleColumns()">
+        <h2>{{ column.name() }}</h2>
+        <ul>
+            <li ng-repeat="issue in column.issues">
+                {{ issue.title }}
+            </li>
+        </ul>
+    </li>
+</ul>
+
 
 <h2>Issues</h2>
 <ul>
