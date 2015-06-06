@@ -1,5 +1,5 @@
-angular.module("taskboard").controller("boardController", function ($scope, $http, $routeParams, $q) {
-
+angular.module("taskboard").controller("boardController", function ($scope, $http, $routeParams, $q, alertService) {
+    
     var data = {};
 
     function getIssuesHref(board) {
@@ -54,6 +54,12 @@ angular.module("taskboard").controller("boardController", function ($scope, $htt
     };
 
     $scope.deleteColumn = function (column) {
+
+        if (column.issues.length > 0) {
+            alertService.show("danger", "The state cannot be deleted since there are issues currently in that state.");
+            return;
+        }
+
         var href = gb.href("self", column.state);
 
         $http.delete(href).success(function () {

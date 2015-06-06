@@ -14,20 +14,31 @@
     <!--<link rel='stylesheet' href='../styles/reset.css' />-->
     <link rel='stylesheet' href='../styles/app.css' />
 
-    <title>Gosu Board</title>
+    <title>Sigma Task Board</title>
 </head>
 <body ng-app="taskboard" ng-controller='appController'>
 
     <section ng-view></section>
+
+    <aside ng-controller="AlertController">
+        <alert ng-repeat="alert in alerts" type="{{alert.type}}">
+            {{alert.msg}}
+            <button type="button" class="close" data-dismiss="alert" ng-if="alert.isClosable" ng-click="closeAlert(alert)">
+                <span aria-hidden="true">&times;  </span><span class="sr-only">Close</span>
+            </button>
+        </alert>
+    </aside>
 
     <script type='text/javascript' src='../js/lib/angular.js'></script>
     <script type='text/javascript' src='../js/lib/angular-route.js'></script>
     <script type='text/javascript' src='../js/lib/angular-touch.js'></script>
     <script type='text/javascript' src='../js/lib/ui-bootstrap-tpls-0.13.0.min.js'></script>
     <script type='text/javascript' src='../js/lib/lodash.js'></script>
-    <script type='text/javascript' src='../js/gosuboard.js'></script>
+    <script type='text/javascript' src='../js/taskboard.js'></script>
+    <script type='text/javascript' src='../js/services/alert-service.js'></script>
     <script type='text/javascript' src='../js/controller-common.js'></script>
     <script type='text/javascript' src='../js/app-controller.js'></script>
+    <script type='text/javascript' src='../js/alert-controller.js'></script>
     <script type='text/javascript' src='../js/boards-controller.js'></script>
     <script type='text/javascript' src='../js/board-controller.js'></script>
     <script type='text/javascript' src='../js/view-models/board-view-model.js'></script>
