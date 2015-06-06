@@ -18,7 +18,11 @@
 </head>
 <body ng-app="taskboard" ng-controller='appController'>
 
-    <section ng-view></section>
+    <header id="main-header">
+        <a href="#/Boards"><h1>Sigma Task Board</h1></a>
+    </header>
+
+    <section id="view-container" ng-view></section>
 
     <aside id="alerts" ng-controller="AlertController">
         <alert ng-repeat="alert in alerts" type="{{alert.type}}">

@@ -1,4 +1,4 @@
-angular.module("taskboard").controller("boardsController", function ($scope, $http) {
+angular.module("taskboard").controller("boardsController", function ($scope, $http, promptService) {
 
     $http.get("/api/boards/").success(function (data) {
         $scope.boards = data.items;
@@ -12,11 +12,15 @@ angular.module("taskboard").controller("boardsController", function ($scope, $ht
     };
 
     $scope.deleteBoard = function (board) {
-        var href = gb.href("self", board);
 
-        $http.delete(href).success(function () {
-            var index = $scope.boards.indexOf(board);
-            $scope.boards.splice(index, 1);  
-        });
+        promptService.showDanger("Delete board?", "Do you really want to delete the board and all its issues?")
+            .then(function () {
+                var href = gb.href("self", board);
+
+                $http.delete(href).success(function () {
+                    var index = $scope.boards.indexOf(board);
+                    $scope.boards.splice(index, 1);
+                });
+            });
     }
 });

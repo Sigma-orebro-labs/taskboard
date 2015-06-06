@@ -2,28 +2,43 @@
     cursor: pointer; 
 }
 
+h1 {
+    font-size: 30px;
+}
+
+ul {
+    list-style: none;
+    padding-left: 0;
+}
+
+i {
+    cursor: pointer;
+}
+
 input[type=text] {
     padding-left: 5px;
 }
 
-.state-column {
-    display: inline-block;
-    vertical-align: top;
-    margin: 20px;
-    width: 240px;
+#view-container {
+    padding-left: 20px;
 }
 
-.create-issue-form [type=submit] {
+#main-header {
+    padding-left: 20px;
+}
+
+#main-header a, #main-header a:hover, #main-header a:visited {
+    color: black;
+    text-decoration: none;
+}
+
+.create-issue-form [type=submit], #create-board-form [type=submit] {
     display: none;
 }
 
 .create-issue-form input {
     display: inline-block;
     width: 100%;
-}
-
-ul {
-    list-style: none;
 }
 
 .issue {
@@ -44,21 +59,25 @@ ul {
     margin-right: 10px;
 }
 
+.state-column {
+    display: inline-block;
+    vertical-align: top;
+    margin-right: 20px;
+    width: 240px;
+}
+
 .state-column .delete-link {
     float: right;
 }
 
 #state-column-list {
+    padding-left: 0;
     display: inline-block;
     vertical-align: top;
 }
 
 #state-column-list h2 {
     margin-top: 0;
-}
-
-#state-column-list ul {
-    padding-left: 0;
 }
 
 #create-state-form {

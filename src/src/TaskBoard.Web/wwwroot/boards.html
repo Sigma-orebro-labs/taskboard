@@ -1,4 +1,4 @@
-﻿<h1>Boards</h1>
+﻿<h2>Boards</h2>
 
 <ul>
     <li ng-repeat="board in boards">
@@ -10,6 +10,6 @@
 </ul>
 
 <form id="create-board-form" ng-submit="createBoard()">
-    <input type="text" name="name" placeholder="Name" ng-model="boardToCreate.name" required />
+    <input type="text" name="name" placeholder="Add new board" ng-model="boardToCreate.name" required />
     <input type="submit" value="Create" />
 </form>
