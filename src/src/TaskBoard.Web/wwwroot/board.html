@@ -1,7 +1,9 @@
-﻿<h1>{{ board.name }}</h1>
+﻿<!--<a href="#/Boards"><h1>{{ board.name }}</h1></a>-->
 
-<ul>
+<ul id="state-column-list">
     <li class="state-column" ng-repeat="column in board.getVisibleColumns()">
+        <i class="delete-link fa fa-trash" ng-click="deleteColumn(column)"></i>
+
         <h2>{{ column.name() }}</h2>
 
         <form class="create-issue-form" ng-submit="createIssue(column)">
@@ -29,18 +31,8 @@
     </li>
 </ul>
 
-<h2>States</h2>
-<ul>
-    <li ng-repeat="state in board.states">
-        {{ state.name }}
-        <i class="fa fa-trash" ng-click="deleteState(state)"></i>
-    </li>
-</ul>
-
 <form id="create-state-form" ng-submit="createState()">
-    <input type="text" name="name" placeholder="Name" ng-model="stateToCreate.name" required />
+    <input type="text" name="name" placeholder="Add a new column" ng-model="stateToCreate.name" required />
     <input type="submit" value="Create" />
 </form>
 
-
-<a href="#/Boards">Back to boards list</a>

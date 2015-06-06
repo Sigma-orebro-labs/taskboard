@@ -53,6 +53,14 @@ angular.module("gosuboard").controller("boardController", function ($scope, $htt
         });
     };
 
+    $scope.deleteColumn = function (column) {
+        var href = gb.href("self", column.state);
+
+        $http.delete(href).success(function () {
+            var index = $scope.board.removeColumn(column);
+        });
+    };
+
     $scope.deleteState = function (state) {
         var href = gb.href("self", state);
 

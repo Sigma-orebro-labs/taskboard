@@ -9,7 +9,6 @@ h2 {
 
 .state-column {
     display: inline-block;
-    height: 100%;
     vertical-align: top;
     margin: 20px;
     width: 240px;
@@ -46,6 +45,21 @@ ul {
     margin-right: 10px;
 }
 
-.issue .delete-link {
+.state-column .delete-link {
     float: right;
+}
+
+#state-column-list {
+    display: inline-block;
+    vertical-align: top;
+}
+
+#create-state-form {
+    display: inline-block;
+    margin-top: 20px;
+    vertical-align: top;
+}
+
+#create-state-form [type=submit] {
+    display: none;
 }

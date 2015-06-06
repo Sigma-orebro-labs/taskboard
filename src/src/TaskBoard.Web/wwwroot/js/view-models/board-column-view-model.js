@@ -43,6 +43,7 @@ gb.viewModels.boardColumnViewModel.create = function (state, issues) {
     }
 
     return {
+        state: state,
         issueToCreate: issueToCreate,
         getIssueToCreate: getIssueToCreate,
         issues: issues,

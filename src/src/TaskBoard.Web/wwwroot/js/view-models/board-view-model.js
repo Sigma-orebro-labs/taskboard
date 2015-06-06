@@ -76,8 +76,14 @@ gb.viewModels.boardViewModel = gb.viewModels.boardViewModel || {};
             issue.stateId = state.id;
         }
 
+        function removeColumn(column) {
+            var index = columns.indexOf(column);
+            columns.splice(index, 1);
+        }
+
         return {
             columns: columns,
+            removeColumn: removeColumn,
             states: board.states,
             name: board.name,
             getVisibleColumns: getVisibleColumns,
