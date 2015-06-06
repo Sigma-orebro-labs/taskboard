@@ -18,6 +18,10 @@ gb.viewModels.boardViewModel = gb.viewModels.boardViewModel || {};
         columns.splice(0, 0, noStateColumn);
     }
 
+    function createColumnViewModel(state, issuesInCurrentState) {
+        return gb.viewModels.boardColumnViewModel.create(state, issuesInCurrentState);
+    }
+
     function createStateColumns(issues, states) {
         return states.map(function (state) {
 
@@ -25,7 +29,7 @@ gb.viewModels.boardViewModel = gb.viewModels.boardViewModel || {};
                 return issue.stateId == state.id;
             });
 
-            return gb.viewModels.boardColumnViewModel.create(state, issuesInCurrentState);
+            return createColumnViewModel(state, issuesInCurrentState);
         });
     }
 
@@ -36,10 +40,9 @@ gb.viewModels.boardViewModel = gb.viewModels.boardViewModel || {};
     }
 
     function getColumnForState(state, columns) {
-        var a = _.find(columns, function (c) {
+        return _.find(columns, function (c) {
             return c.isMatchForState(state.id);
         });
-        return a;
     }
 
     gb.viewModels.boardViewModel.create = function (board) {
@@ -52,6 +55,11 @@ gb.viewModels.boardViewModel = gb.viewModels.boardViewModel || {};
             var column = getColumnForIssue(issue, columns);
 
             column.addIssue(issue);
+        }
+
+        function addColumn(state) {
+            var columnViewModel = createColumnViewModel(state, []);
+            columns.push(columnViewModel);
         }
 
         function removeIssue(issue) {
@@ -83,6 +91,7 @@ gb.viewModels.boardViewModel = gb.viewModels.boardViewModel || {};
 
         return {
             columns: columns,
+            addColumn: addColumn,
             removeColumn: removeColumn,
             states: board.states,
             name: board.name,

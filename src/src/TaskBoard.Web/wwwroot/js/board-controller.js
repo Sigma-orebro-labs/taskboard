@@ -39,8 +39,8 @@ angular.module("gosuboard").controller("boardController", function ($scope, $htt
     };
 
     $scope.createState = function () {
-        $http(gb.formDataRequest('POST', getStatesHref(), $scope.stateToCreate)).success(function (data) {
-            $scope.board.states.push(data);
+        $http(gb.formDataRequest('POST', getStatesHref(), $scope.stateToCreate)).success(function (state) {
+            $scope.board.addColumn(state);
             $scope.stateToCreate = {};
         });
     };
