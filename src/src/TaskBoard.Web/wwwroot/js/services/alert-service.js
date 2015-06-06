@@ -1,5 +1,5 @@
 ﻿(function () {
-    function alertService() {
+    function alertService($timeout) {
 
         var alerts = [];
         
@@ -20,15 +20,23 @@
         }
 
         function show(type, msg) {
+
             console.log("showing alert (" + type + "): " + msg);
-            return alerts.push({
+
+            var alert = {
                 type: type,
                 msg: msg,
                 close: function () {
                     close(this);
                 },
                 isClosable: true
-            });
+            };
+
+            $timeout(function () {
+                close(alert);
+            }, 10 * 1000);
+
+            return alerts.push(alert);
         }
 
         function close(alert) {
