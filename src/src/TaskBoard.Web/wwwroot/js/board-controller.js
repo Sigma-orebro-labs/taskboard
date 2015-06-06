@@ -1,26 +1,29 @@
 angular.module("gosuboard").controller("boardController", function ($scope, $http, $routeParams, $q) {
 
-    function getIssuesHref() {
-        return gb.href("issues", $scope.board);
+    var data = {};
+
+    function getIssuesHref(board) {
+        return gb.href("issues", data.board);
     }
 
     function getStatesHref() {
-        return gb.href("states", $scope.board);
+        return gb.href("states", data.board);
     }
 
-    $http.get("/api/boards/" + $routeParams.id).success(function (data) {
-        $scope.board = data;
+    $http.get("/api/boards/" + $routeParams.id).success(function (board) {
+
+        data.board = board;
 
         var issuesPromise = $http.get(getIssuesHref()).success(function (issues) {
-            $scope.board.issues = issues.items;
+            board.issues = issues.items;
         });
 
         var statesPromise = $http.get(getStatesHref()).success(function (states) {
-            $scope.board.states = states.items;
+            board.states = states.items;
         });
 
         $q.all([issuesPromise, statesPromise]).then(function () {
-            $scope.boardViewModel = gb.viewModels.boardViewModel.create($scope.board.issues, $scope.board.states);
+            $scope.board = gb.viewModels.boardViewModel.create(board);
         });
     });
 
@@ -29,12 +32,9 @@ angular.module("gosuboard").controller("boardController", function ($scope, $htt
         var issueToCreate = column.getIssueToCreate();
         
         $http(gb.formDataRequest('POST', getIssuesHref(), issueToCreate)).success(function (data) {
-            $scope.board.issues.push(data);
-            
+
             column.addIssue(data);
             column.clearCreateIssueForm();
-           
-            $scope.issueToCreate = {};
         });
     };
 
@@ -49,8 +49,6 @@ angular.module("gosuboard").controller("boardController", function ($scope, $htt
         var href = gb.href("self", issue);
 
         $http.delete(href).success(function () {
-            var index = $scope.board.issues.indexOf(issue);
-            $scope.board.issues.splice(index, 1);
             column.removeIssue(issue);
         });
     };
@@ -72,7 +70,7 @@ angular.module("gosuboard").controller("boardController", function ($scope, $htt
             issueId: issue.id,
             stateId: state.id
         })).success(function () {
-            $scope.boardViewModel.changeState(issue, state);
+            $scope.board.changeState(issue, state);
         });
     };
 

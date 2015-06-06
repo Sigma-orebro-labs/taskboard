@@ -42,11 +42,11 @@ gb.viewModels.boardViewModel = gb.viewModels.boardViewModel || {};
         return a;
     }
 
-    gb.viewModels.boardViewModel.create = function (issues, states) {
+    gb.viewModels.boardViewModel.create = function (board) {
         
-        var columns = createStateColumns(issues, states);
+        var columns = createStateColumns(board.issues, board.states);
 
-        addNoStateColumn(issues, columns);
+        addNoStateColumn(board.issues, columns);
 
         function addIssue(issue) {
             var column = getColumnForIssue(issue, columns);
@@ -78,6 +78,8 @@ gb.viewModels.boardViewModel = gb.viewModels.boardViewModel || {};
 
         return {
             columns: columns,
+            states: board.states,
+            name: board.name,
             getVisibleColumns: getVisibleColumns,
             addIssue: addIssue,
             removeIssue: removeIssue,
