@@ -2,7 +2,6 @@
     function issueDetailsService($modal) {
 
         function show(issue) {
-
             return $modal.open({
                 templateUrl: 'templates/issue-details.html',
                 controller: "issueDetailsController",
@@ -11,7 +10,7 @@
                         return issue;
                     }
                 }
-            });
+            }).result;
         }
 
         return {

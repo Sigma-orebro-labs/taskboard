@@ -95,6 +95,8 @@ angular.module("taskboard").controller("boardController", function ($scope, $htt
     };
 
     $scope.showIssueDetails = function (issue) {
-        issueDetailsService.show(issue);
+        issueDetailsService.show(issue).then(function () {
+            alertService.showSuccess("Changes made to the issue have been saved")
+        });
     };
 });

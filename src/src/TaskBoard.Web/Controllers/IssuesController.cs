@@ -81,8 +81,22 @@ namespace GosuBoard.Web.Controllers
         }
 
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody]string value)
+        public IActionResult Put(int id, string title, string description)
         {
+            using (var context = new BoardContext())
+            {
+                var issue = context.Issues.FirstOrDefault(x => x.Id == id);
+
+                if (issue == null)
+                    return HttpNotFound();
+
+                issue.Title = title;
+                issue.Description = description;
+
+                context.SaveChanges();
+
+                return Result.Object(issue);
+            }
         }
 
         [HttpDelete("{id}")]
