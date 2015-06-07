@@ -1,4 +1,4 @@
-angular.module("taskboard").controller("boardController", function ($scope, $http, $routeParams, $q, $modal, alertService, promptService) {
+angular.module("taskboard").controller("boardController", function ($scope, $http, $routeParams, $q, $modal, alertService, promptService, issueDetailsService) {
     
     var data = {};
 
@@ -94,16 +94,7 @@ angular.module("taskboard").controller("boardController", function ($scope, $htt
         });
     };
 
-    $scope.getStateName = function (stateId) {
-
-        if (!stateId) {
-            return "No state";
-        }
-
-        var state = _.find($scope.board.states, function (state) {
-            return state.id == stateId;
-        });
-
-        return state ? state.name : null;
+    $scope.showIssueDetails = function (issue) {
+        issueDetailsService.show(issue);
     };
 });

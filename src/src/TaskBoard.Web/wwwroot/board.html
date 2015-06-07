@@ -15,7 +15,7 @@
             <li class="issue" ng-repeat="issue in column.issues">
                 <i class="delete-link fa fa-trash" ng-click="deleteIssue(column, issue)"></i>
 
-                {{ issue.title }}
+                <a ng-click="showIssueDetails(issue)">{{ issue.title }}</a>
 
                 <menu>
                     <span>Move to:</span>
