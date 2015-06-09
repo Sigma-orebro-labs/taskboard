@@ -4,6 +4,8 @@ using Microsoft.Framework.DependencyInjection;
 using GosuBoard.Web.Infrastructure;
 using Microsoft.AspNet.Mvc;
 using Newtonsoft.Json.Serialization;
+using Microsoft.Data.Entity;
+using Microsoft.Framework.ConfigurationModel;
 
 namespace GosuBoard.Web
 {
@@ -12,6 +14,10 @@ namespace GosuBoard.Web
         // For more information on how to configure your application, visit http://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
+            var configuration = new Configuration()
+                .AddJsonFile("config.json")
+                .AddEnvironmentVariables();
+
             services.AddMvc()
                 .Configure<MvcOptions>(options =>
                 {
@@ -30,15 +36,7 @@ namespace GosuBoard.Web
 
         public void Configure(IApplicationBuilder app)
         {
-            app.UseMvc(routes =>
-            {
-                // route1
-                routes.MapRoute(
-                    name: "home",
-                    template: "",
-                    defaults: new { controller = "Home", action = "Index" }
-                );
-            })
+            app.UseMvc()
                .UseStaticFiles();
         }
     }

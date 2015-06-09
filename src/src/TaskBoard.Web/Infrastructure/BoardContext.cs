@@ -8,11 +8,14 @@ namespace GosuBoard.Web.Infrastructure
     {
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            var config = new Configuration().AddJsonFile("config.json");
+            var config = new Configuration()
+                .AddJsonFile("config.json")
+                .AddEnvironmentVariables();
 
-            var connectionString = config.Get("connectionString");
-
-            optionsBuilder.UseSqlServer(connectionString);
+            // The development connection string is defined in the config.json file.
+            // The connection strings for the Azure web app(s) are defined in the web app
+            // settings in the Azure portal
+            optionsBuilder.UseSqlServer(config["Data:DefaultConnection:ConnectionString"]);
 
             base.OnConfiguring(optionsBuilder);
         }
