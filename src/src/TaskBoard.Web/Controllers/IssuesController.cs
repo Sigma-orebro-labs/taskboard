@@ -1,9 +1,11 @@
-﻿using GosuBoard.Web.Controllers.Results;
+﻿using GosuBoard.Web.Controllers.RealTime;
+using GosuBoard.Web.Controllers.Results;
 using GosuBoard.Web.Entities;
 using GosuBoard.Web.Infrastructure;
 using GosuBoard.Web.Mapping;
 using GosuBoard.Web.Models;
 using Microsoft.AspNet.Mvc;
+using Microsoft.AspNet.SignalR.Infrastructure;
 using System;
 using System.Linq;
 using System.Linq.Expressions;
@@ -13,6 +15,13 @@ namespace GosuBoard.Web.Controllers
     [Route("api/issues")]
     public class IssuesController : BaseController
     {
+        private IConnectionManager _connectionManager;
+
+        public IssuesController(IConnectionManager connectionManager)
+        {
+            _connectionManager = connectionManager;
+        }
+
         [HttpGet(Name = "Issues")]
         public CollectionModel<IssueModel> Get()
         {
@@ -58,6 +67,11 @@ namespace GosuBoard.Web.Controllers
 
                 context.SaveChanges();
             }
+
+            var boardHub = _connectionManager.GetHubContext<BoardHub>();
+            var issueModel = Result.ToModel(issue);
+
+            boardHub.Clients.All.addIssue(issueModel);
 
             return Result.Created(issue);
         }

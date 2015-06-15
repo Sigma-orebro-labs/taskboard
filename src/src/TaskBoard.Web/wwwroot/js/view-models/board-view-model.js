@@ -89,6 +89,11 @@ gb.viewModels.boardViewModel = gb.viewModels.boardViewModel || {};
             columns.splice(index, 1);
         }
 
+        function addIssue(issue) {
+            var column = getColumnForIssue(issue, columns);
+            column.addIssue(issue);
+        }
+
         return {
             columns: columns,
             addColumn: addColumn,
@@ -98,7 +103,8 @@ gb.viewModels.boardViewModel = gb.viewModels.boardViewModel || {};
             getVisibleColumns: getVisibleColumns,
             addIssue: addIssue,
             removeIssue: removeIssue,
-            changeState: changeState
+            changeState: changeState,
+            addIssue: addIssue
         };
     };
 })();

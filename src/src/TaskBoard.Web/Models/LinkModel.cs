@@ -1,4 +1,6 @@
-﻿namespace GosuBoard.Web.Models
+﻿using Newtonsoft.Json;
+
+namespace GosuBoard.Web.Models
 {
     public class LinkModel
     {
@@ -9,8 +11,13 @@
             Href = href;
         }
 
+        [JsonProperty("rel")]
         public readonly string Rel;
+
+        [JsonProperty("href")]
         public readonly string Href;
+
+        [JsonProperty("prompt")]
         public readonly string Prompt;
     }
 }

@@ -1,4 +1,4 @@
-﻿{
+{
   "webroot": "wwwroot",
   "version": "1.0.0-*",
 
@@ -11,7 +11,10 @@
     "EntityFramework.Relational": "7.0.0-beta4",
     "EntityFramework.SqlServer": "7.0.0-beta4",
     "Microsoft.Framework.ConfigurationModel": "1.0.0-beta4",
-    "Microsoft.Framework.ConfigurationModel.Json": "1.0.0-beta4"
+    "Microsoft.Framework.ConfigurationModel.Json": "1.0.0-beta4",
+    "Microsoft.AspNet.SignalR.Server": "3.0.0-beta4",
+    "Microsoft.AspNet.SignalR.JS": "2.2.0",
+    "Microsoft.AspNet.WebSockets.Server": "1.0.0-beta4"
   },
 
   "commands": {

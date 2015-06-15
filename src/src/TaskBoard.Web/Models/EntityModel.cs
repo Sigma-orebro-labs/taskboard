@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using Newtonsoft.Json;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace GosuBoard.Web.Models
@@ -10,8 +11,10 @@ namespace GosuBoard.Web.Models
             Links = new List<LinkModel>();
         }
 
+        [JsonProperty("id")]
         public int Id { get; set; }
 
+        [JsonProperty("links")]
         public IList<LinkModel> Links { get; private set; }
 
         public void AddLink(LinkModel link)

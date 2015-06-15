@@ -8,6 +8,10 @@ gb.viewModels.boardColumnViewModel.create = function (state, issues) {
 
     function addIssue(issue) {
         issues.push(issue);
+
+        if (issueToCreate.title == issue.title) {
+            clearCreateIssueForm();
+        }
     }
 
     function getIssueToCreate() {
@@ -52,7 +56,6 @@ gb.viewModels.boardColumnViewModel.create = function (state, issues) {
         isMatchForIssue: isMatchForIssue,
         isMatchForState: isMatchForState,
         isVisible: isVisible,
-        name: name,
-        clearCreateIssueForm: clearCreateIssueForm
+        name: name
     };
 };

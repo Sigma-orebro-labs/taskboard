@@ -1,4 +1,13 @@
-angular.module("taskboard").controller("boardController", function ($scope, $http, $routeParams, $q, $modal, alertService, promptService, issueDetailsService) {
+angular.module("taskboard").controller("boardController", function (
+    $scope,
+    $http,
+    $routeParams,
+    $q,
+    $modal,
+    alertService,
+    promptService,
+    issueDetailsService,
+    boardHubService) {
     
     var data = {};
 
@@ -25,17 +34,20 @@ angular.module("taskboard").controller("boardController", function ($scope, $htt
         $q.all([issuesPromise, statesPromise]).then(function () {
             $scope.board = gb.viewModels.boardViewModel.create(board);
         });
+
+        boardHubService.attachBoard(board, {
+            onAddIssue: function (issue) {
+                $scope.board.addIssue(issue);
+            }
+        });
+
     });
 
     $scope.createIssue = function (column) {
 
         var issueToCreate = column.getIssueToCreate();
         
-        $http(gb.formDataRequest('POST', getIssuesHref(), issueToCreate)).success(function (data) {
-
-            column.addIssue(data);
-            column.clearCreateIssueForm();
-        });
+        $http(gb.formDataRequest('POST', getIssuesHref(), issueToCreate)).success(function (data) { });
     };
 
     $scope.createState = function () {

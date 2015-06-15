@@ -28,12 +28,19 @@ namespace GosuBoard.Web
             services.AddEntityFramework()
                 .AddSqlServer()
                 .AddDbContext<BoardContext>();
+
+            services.AddSignalR(options =>
+            {
+                options.Hubs.EnableDetailedErrors = true;
+            });
         }
 
         public void Configure(IApplicationBuilder app)
         {
             app.UseMvc()
-               .UseStaticFiles();
+               .UseStaticFiles()
+               .UseWebSockets()
+               .UseSignalR();
         }
     }
 }
