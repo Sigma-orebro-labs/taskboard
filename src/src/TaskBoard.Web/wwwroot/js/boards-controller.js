@@ -1,7 +1,13 @@
-angular.module("taskboard").controller("boardsController", function ($scope, $http, promptService) {
+angular.module("taskboard").controller("boardsController", function ($scope, $http, promptService, boardHubService) {
 
     $http.get("/api/boards/").success(function (data) {
         $scope.boards = data.items;
+
+        var boardIds = data.items.map(function (board) {
+            return board.id;
+        });
+
+        boardHubService.unsubscribeAll(boardIds);
     });
 
     $scope.createBoard = function () {

@@ -95,6 +95,7 @@ gb.viewModels.boardViewModel = gb.viewModels.boardViewModel || {};
         }
 
         return {
+            id: board.id,
             columns: columns,
             addColumn: addColumn,
             removeColumn: removeColumn,

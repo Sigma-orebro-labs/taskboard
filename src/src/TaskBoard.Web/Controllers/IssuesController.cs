@@ -71,7 +71,7 @@ namespace GosuBoard.Web.Controllers
             var boardHub = _connectionManager.GetHubContext<BoardHub>();
             var issueModel = Result.ToModel(issue);
 
-            boardHub.Clients.All.addIssue(issueModel);
+            boardHub.Clients.Group(boardId.ToString()).addIssue(issueModel);
 
             return Result.Created(issue);
         }

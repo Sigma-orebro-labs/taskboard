@@ -33,14 +33,13 @@ angular.module("taskboard").controller("boardController", function (
 
         $q.all([issuesPromise, statesPromise]).then(function () {
             $scope.board = gb.viewModels.boardViewModel.create(board);
-        });
 
-        boardHubService.attachBoard(board, {
-            onAddIssue: function (issue) {
-                $scope.board.addIssue(issue);
-            }
-        });
+            boardHubService.subscribe($scope.board);
 
+            $scope.$on("$destroy", function () {
+                boardHubService.unsubscribe(board.id);
+            });
+        });
     });
 
     $scope.createIssue = function (column) {

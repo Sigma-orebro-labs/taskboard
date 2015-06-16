@@ -5,9 +5,22 @@ namespace GosuBoard.Web.Controllers.RealTime
 {
     public class BoardHub : Hub
     {
-        public void BroadcastAddIssue(IssueModel issue)
+        public void Subscribe(string boardId)
         {
-            Clients.Others.addIssue(issue);
+            Groups.Add(Context.ConnectionId, boardId);
+        }
+
+        public void Unsubscribe(string boardId)
+        {
+            Groups.Remove(Context.ConnectionId, boardId);
+        }
+
+        public void UnsubscribeMany(string[] boardIds)
+        {
+            foreach (var id in boardIds)
+            {
+                Unsubscribe(id);
+            }
         }
     }
 }
