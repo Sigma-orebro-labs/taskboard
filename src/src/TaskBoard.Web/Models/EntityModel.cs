@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace GosuBoard.Web.Models
+namespace TaskBoard.Web.Models
 {
     public class EntityModel
     {

@@ -1,4 +1,4 @@
-﻿namespace GosuBoard.Web.Entities
+﻿namespace TaskBoard.Web.Entities
 {
     public class Issue : Entity
     {

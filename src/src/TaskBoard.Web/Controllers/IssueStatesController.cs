@@ -1,12 +1,12 @@
-﻿using GosuBoard.Web.Controllers.Results;
-using GosuBoard.Web.Entities;
-using GosuBoard.Web.Infrastructure;
-using GosuBoard.Web.Mapping;
-using GosuBoard.Web.Models;
+﻿using TaskBoard.Web.Controllers.Results;
+using TaskBoard.Web.Entities;
+using TaskBoard.Web.Infrastructure;
+using TaskBoard.Web.Mapping;
+using TaskBoard.Web.Models;
 using Microsoft.AspNet.Mvc;
 using System.Linq;
 
-namespace GosuBoard.Web.Controllers
+namespace TaskBoard.Web.Controllers
 {
     [Route("api/issuestates")]
     public class IssueStatesController : BaseController

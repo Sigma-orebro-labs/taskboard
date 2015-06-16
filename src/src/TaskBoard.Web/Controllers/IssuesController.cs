@@ -1,16 +1,16 @@
-﻿using GosuBoard.Web.Controllers.RealTime;
-using GosuBoard.Web.Controllers.Results;
-using GosuBoard.Web.Entities;
-using GosuBoard.Web.Infrastructure;
-using GosuBoard.Web.Mapping;
-using GosuBoard.Web.Models;
+﻿using TaskBoard.Web.Controllers.RealTime;
+using TaskBoard.Web.Controllers.Results;
+using TaskBoard.Web.Entities;
+using TaskBoard.Web.Infrastructure;
+using TaskBoard.Web.Mapping;
+using TaskBoard.Web.Models;
 using Microsoft.AspNet.Mvc;
 using Microsoft.AspNet.SignalR.Infrastructure;
 using System;
 using System.Linq;
 using System.Linq.Expressions;
 
-namespace GosuBoard.Web.Controllers
+namespace TaskBoard.Web.Controllers
 {
     [Route("api/issues")]
     public class IssuesController : BaseController
@@ -68,11 +68,9 @@ namespace GosuBoard.Web.Controllers
                 context.SaveChanges();
             }
 
-            var boardHub = _connectionManager.GetHubContext<BoardHub>();
             var issueModel = Result.ToModel(issue);
-
-            boardHub.Clients.Group(boardId.ToString()).addIssue(issueModel);
-
+            _connectionManager.BroadcastAddIssue(issueModel);
+            
             return Result.Created(issue);
         }
 
@@ -116,7 +114,11 @@ namespace GosuBoard.Web.Controllers
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {
-            return DeleteById<Issue>(id);
+            return DeleteById<Issue>(id, x =>
+            {
+                var issueModel = Result.ToModel(x);
+                _connectionManager.BroadcastDeleteIssue(issueModel);
+            });
         }
 
         private CollectionModel<IssueModel> GetCollection(string href, Expression<Func<Issue, bool>> predicate = null)

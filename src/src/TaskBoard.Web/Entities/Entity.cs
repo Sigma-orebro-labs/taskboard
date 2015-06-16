@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace GosuBoard.Web.Entities
+namespace TaskBoard.Web.Entities
 {
     public class Entity
     {

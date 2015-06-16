@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace GosuBoard.Web.Models
+namespace TaskBoard.Web.Models
 {
     public class LinkModel
     {

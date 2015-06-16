@@ -33,6 +33,15 @@
                 });
             };
 
+            boardHub.client.deleteIssue = function (issueId) {
+
+                console.log("Deleting issue with id: " + issueId);
+
+                $rootScope.$apply(function () {
+                    board.removeIssueById(issueId);
+                });
+            };
+
             //$.connection.hub.logging = true;
             connect(function () {
                 boardHub.server.subscribe(board.id);

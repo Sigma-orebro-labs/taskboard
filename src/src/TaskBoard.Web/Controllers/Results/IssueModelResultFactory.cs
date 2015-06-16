@@ -1,9 +1,9 @@
-﻿using GosuBoard.Web.Entities;
-using GosuBoard.Web.Mapping;
-using GosuBoard.Web.Models;
+﻿using TaskBoard.Web.Entities;
+using TaskBoard.Web.Mapping;
+using TaskBoard.Web.Models;
 using Microsoft.AspNet.Mvc;
 
-namespace GosuBoard.Web.Controllers.Results
+namespace TaskBoard.Web.Controllers.Results
 {
     public class IssueModelResultFactory : EntityModelResultFactory<Issue, IssueModel>
     {

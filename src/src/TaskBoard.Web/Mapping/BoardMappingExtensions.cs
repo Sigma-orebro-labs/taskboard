@@ -1,9 +1,9 @@
-﻿using GosuBoard.Web.Entities;
-using GosuBoard.Web.Models;
+﻿using TaskBoard.Web.Entities;
+using TaskBoard.Web.Models;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace GosuBoard.Web.Mapping
+namespace TaskBoard.Web.Mapping
 {
     public static class BoardMappingExtensions
     {

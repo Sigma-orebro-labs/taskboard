@@ -1,8 +1,8 @@
-﻿using GosuBoard.Web.Entities;
+﻿using TaskBoard.Web.Entities;
 using Microsoft.Data.Entity;
 using Microsoft.Framework.ConfigurationModel;
 
-namespace GosuBoard.Web.Infrastructure
+namespace TaskBoard.Web.Infrastructure
 {
     public class BoardContext : DbContext
     {

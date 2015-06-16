@@ -61,9 +61,7 @@ angular.module("taskboard").controller("boardController", function (
         
         promptService.showDanger("Delete issue?", "Do you really want to delete the issue?")
             .then(function () {
-                $http.delete(href).success(function () {
-                    column.removeIssue(issue);
-                });
+                $http.delete(href).success(function () { });
             });
     };
 

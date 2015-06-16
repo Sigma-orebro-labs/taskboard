@@ -1,9 +1,9 @@
-﻿using GosuBoard.Web.Models;
+﻿using TaskBoard.Web.Models;
 using Microsoft.AspNet.Mvc;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace GosuBoard.Web.Controllers.Results
+namespace TaskBoard.Web.Controllers.Results
 {
     public abstract class EntityModelResultFactory<TEntity, TModel>
         where TModel : EntityModel

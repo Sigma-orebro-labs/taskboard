@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace GosuBoard.Web.Models
+namespace TaskBoard.Web.Models
 {
     public class BoardModel : EntityModel
     {

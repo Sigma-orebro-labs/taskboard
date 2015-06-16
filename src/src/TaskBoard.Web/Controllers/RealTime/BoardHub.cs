@@ -1,7 +1,7 @@
-﻿using GosuBoard.Web.Models;
+﻿using TaskBoard.Web.Models;
 using Microsoft.AspNet.SignalR;
 
-namespace GosuBoard.Web.Controllers.RealTime
+namespace TaskBoard.Web.Controllers.RealTime
 {
     public class BoardHub : Hub
     {

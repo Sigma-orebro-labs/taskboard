@@ -1,17 +1,17 @@
-﻿using GosuBoard.Web.Entities;
-using GosuBoard.Web.Infrastructure;
-using GosuBoard.Web.Models;
+﻿using TaskBoard.Web.Entities;
+using TaskBoard.Web.Infrastructure;
+using TaskBoard.Web.Models;
 using Microsoft.AspNet.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace GosuBoard.Web.Controllers
+namespace TaskBoard.Web.Controllers
 {
     public class BaseController : Controller
     {
-        protected IActionResult DeleteById<T>(int id)
+        protected IActionResult DeleteById<T>(int id, Action<T> onDelete = null)
             where T : Entity
         {
             using (var context = new BoardContext())
@@ -26,6 +26,9 @@ namespace GosuBoard.Web.Controllers
                 set.Remove(entity);
 
                 context.SaveChanges();
+
+                if (onDelete != null)
+                    onDelete(entity);
             }
 
             return new NoContentResult();

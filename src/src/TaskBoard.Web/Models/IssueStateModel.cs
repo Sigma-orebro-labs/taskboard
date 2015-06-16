@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GosuBoard.Web.Models
+namespace TaskBoard.Web.Models
 {
     public class IssueStateModel : EntityModel
     {

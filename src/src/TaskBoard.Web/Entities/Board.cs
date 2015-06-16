@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace GosuBoard.Web.Entities
+namespace TaskBoard.Web.Entities
 {
     public class Board : Entity
     {

@@ -1,13 +1,13 @@
 ﻿using System.Linq;
 using Microsoft.AspNet.Builder;
 using Microsoft.Framework.DependencyInjection;
-using GosuBoard.Web.Infrastructure;
+using TaskBoard.Web.Infrastructure;
 using Microsoft.AspNet.Mvc;
 using Newtonsoft.Json.Serialization;
 using Microsoft.Data.Entity;
 using Microsoft.Framework.ConfigurationModel;
 
-namespace GosuBoard.Web
+namespace TaskBoard.Web
 {
     public class Startup
     {

@@ -68,6 +68,28 @@ gb.viewModels.boardViewModel = gb.viewModels.boardViewModel || {};
             column.removeIssue(issue);
         }
 
+        function removeIssueById(issueId) {
+            var issue = getIssueById(issueId);
+
+            if (issue) {
+                removeIssue(issue);
+            }
+        }
+
+        function getIssueById(issueId) {
+            for (var i = 0; i < columns.length; i++) {
+                for (var j = 0; j < columns[i].issues.length; j++) {
+                    var issue = columns[i].issues[j];
+
+                    if (issue.id == issueId) {
+                        return issue;
+                    }
+                }
+            }
+
+            return null;
+        }
+
         function getVisibleColumns() {
             return columns.filter(function (c) {
                 return c.isVisible()
@@ -104,6 +126,7 @@ gb.viewModels.boardViewModel = gb.viewModels.boardViewModel || {};
             getVisibleColumns: getVisibleColumns,
             addIssue: addIssue,
             removeIssue: removeIssue,
+            removeIssueById: removeIssueById,
             changeState: changeState,
             addIssue: addIssue
         };
