@@ -106,6 +106,11 @@ gb.viewModels.boardViewModel = gb.viewModels.boardViewModel || {};
             issue.stateId = state.id;
         }
 
+        function removeColumnById(stateId) {
+            var column = getColumnForState({ id: stateId });
+            removeColumn(column);
+        }
+
         function removeColumn(column) {
             var index = columns.indexOf(column);
             columns.splice(index, 1);
@@ -116,11 +121,19 @@ gb.viewModels.boardViewModel = gb.viewModels.boardViewModel || {};
             column.addIssue(issue);
         }
 
+        function updateIssue(updatedIssue) {
+            var issue = getIssueById(updatedIssue.id);
+
+            issue.title = updatedIssue.title;
+            issue.description = updatedIssue.description;
+        }
+
         return {
             id: board.id,
             columns: columns,
             addColumn: addColumn,
             removeColumn: removeColumn,
+            removeColumnById: removeColumnById,
             states: board.states,
             name: board.name,
             getVisibleColumns: getVisibleColumns,
@@ -128,7 +141,8 @@ gb.viewModels.boardViewModel = gb.viewModels.boardViewModel || {};
             removeIssue: removeIssue,
             removeIssueById: removeIssueById,
             changeState: changeState,
-            addIssue: addIssue
+            addIssue: addIssue,
+            updateIssue: updateIssue
         };
     };
 })();

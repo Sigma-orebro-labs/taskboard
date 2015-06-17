@@ -42,6 +42,24 @@
                 });
             };
 
+            boardHub.client.addState = function (state) {
+                $rootScope.$apply(function () {
+                    board.addColumn(state);
+                });
+            };
+
+            boardHub.client.deleteState = function (stateId) {
+                $rootScope.$apply(function () {
+                    board.removeColumnById(stateId);
+                });
+            };
+
+            boardHub.client.updateIssue = function (issue) {
+                $rootScope.$apply(function () {
+                    board.updateIssue(issue);
+                });
+            };
+
             //$.connection.hub.logging = true;
             connect(function () {
                 boardHub.server.subscribe(board.id);

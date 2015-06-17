@@ -107,6 +107,9 @@ namespace TaskBoard.Web.Controllers
 
                 context.SaveChanges();
 
+                var issueModel = Result.ToModel(issue);
+                _connectionManager.BroadcastUpdateIssue(issueModel);
+
                 return Result.Object(issue);
             }
         }

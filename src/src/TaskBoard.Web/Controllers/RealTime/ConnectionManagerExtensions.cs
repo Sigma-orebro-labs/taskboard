@@ -11,16 +11,34 @@ namespace TaskBoard.Web.Controllers.RealTime
     {
         public static void BroadcastAddIssue(this IConnectionManager connectionManager, IssueModel issue)
         {
-            var boardHub = connectionManager.GetHubContext<BoardHub>();
+            connectionManager.GetGroup(issue.BoardId).addIssue(issue);
+        }
 
-            boardHub.Clients.Group(issue.BoardId.ToString()).addIssue(issue);
+        public static void BroadcastUpdateIssue(this IConnectionManager connectionManager, IssueModel issue)
+        {
+            connectionManager.GetGroup(issue.BoardId).updateIssue(issue);
         }
 
         public static void BroadcastDeleteIssue(this IConnectionManager connectionManager, IssueModel issue)
         {
+            connectionManager.GetGroup(issue.BoardId).deleteIssue(issue.Id);
+        }
+
+        public static void BroadcastAddState(this IConnectionManager connectionManager, IssueStateModel issueState)
+        {
+            connectionManager.GetGroup(issueState.BoardId).addState(issueState);
+        }
+
+        public static void BroadcastDeleteState(this IConnectionManager connectionManager, IssueStateModel issueState)
+        {
+            connectionManager.GetGroup(issueState.BoardId).deleteState(issueState.Id);
+        }
+
+        private static dynamic GetGroup(this IConnectionManager connectionManager, int boardId)
+        {
             var boardHub = connectionManager.GetHubContext<BoardHub>();
 
-            boardHub.Clients.Group(issue.BoardId.ToString()).deleteIssue(issue.Id);
+            return boardHub.Clients.Group(boardId.ToString());
         }
     }
 }

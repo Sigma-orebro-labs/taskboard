@@ -51,7 +51,6 @@ angular.module("taskboard").controller("boardController", function (
 
     $scope.createState = function () {
         $http(gb.formDataRequest('POST', getStatesHref(), $scope.stateToCreate)).success(function (state) {
-            $scope.board.addColumn(state);
             $scope.stateToCreate = {};
         });
     };
@@ -76,9 +75,7 @@ angular.module("taskboard").controller("boardController", function (
             .then(function () {
                 var href = gb.href("self", column.state);
 
-                $http.delete(href).success(function () {
-                    var index = $scope.board.removeColumn(column);
-                });
+                $http.delete(href).success(function () { });
             });
     };
 

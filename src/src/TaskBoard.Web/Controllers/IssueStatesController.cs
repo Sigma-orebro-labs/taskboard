@@ -5,12 +5,21 @@ using TaskBoard.Web.Mapping;
 using TaskBoard.Web.Models;
 using Microsoft.AspNet.Mvc;
 using System.Linq;
+using Microsoft.AspNet.SignalR.Infrastructure;
+using TaskBoard.Web.Controllers.RealTime;
 
 namespace TaskBoard.Web.Controllers
 {
     [Route("api/issuestates")]
     public class IssueStatesController : BaseController
     {
+        private IConnectionManager _connectionManager;
+
+        public IssueStatesController(IConnectionManager connectionManager)
+        {
+            _connectionManager = connectionManager;
+        }
+
         [HttpGet("{id}", Name = "StateById")]
         public IActionResult Get(int id)
         {
@@ -42,7 +51,7 @@ namespace TaskBoard.Web.Controllers
         [HttpPost("~/api/boards/{boardId}/states")]
         public IActionResult Post(int boardId, string name)
         {
-            var State = new IssueState
+            var state = new IssueState
             {
                 Name = name,
                 BoardId = boardId
@@ -50,12 +59,14 @@ namespace TaskBoard.Web.Controllers
 
             using (var context = new BoardContext())
             {
-                context.IssueStates.Add(State);
+                context.IssueStates.Add(state);
 
                 context.SaveChanges();
             }
 
-            return Result.Created(State);
+            _connectionManager.BroadcastAddState(Result.ToModel(state));
+
+            return Result.Created(state);
         }
 
         [HttpPut("{id}")]
@@ -66,7 +77,11 @@ namespace TaskBoard.Web.Controllers
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {
-            return DeleteById<IssueState>(id);
+            return DeleteById<IssueState>(id, x =>
+            {
+                var issueStateModel = Result.ToModel(x);
+                _connectionManager.BroadcastDeleteState(issueStateModel);
+            });
         }
         
         private IssueStateModelResultFactory Result
