@@ -16,12 +16,12 @@ namespace TaskBoard.Web.Controllers.Results
 
         public override IssueStateModel ToModel(IssueState entity)
         {
-            var IssueStateModel = entity.ToModel();
+            var issueStateModel = entity.ToModel();
 
-            IssueStateModel.AddLink(CreateBoardLink(entity.BoardId));
-            IssueStateModel.AddLink(CreateSelfLink(entity.Id));
+            issueStateModel.AddLink(CreateBoardLink(entity.BoardId));
+            issueStateModel.AddLink(CreateSelfLink(entity.Id));
 
-            return IssueStateModel;
+            return issueStateModel;
         }
 
         private LinkModel CreateBoardLink(int boardId)

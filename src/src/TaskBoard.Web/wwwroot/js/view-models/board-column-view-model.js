@@ -53,6 +53,10 @@ gb.viewModels.boardColumnViewModel.create = function (state, issues) {
         properties.isSelected = !properties.isSelected;
     }
 
+    function deselect() {
+        properties.isSelected = false;
+    }
+
     function isSelected() {
         return properties.isSelected;
     }
@@ -69,6 +73,7 @@ gb.viewModels.boardColumnViewModel.create = function (state, issues) {
         isVisible: isVisible,
         name: name,
         toggleSelected: toggleSelected,
+        deselect: deselect,
         isSelected: isSelected
     };
 };

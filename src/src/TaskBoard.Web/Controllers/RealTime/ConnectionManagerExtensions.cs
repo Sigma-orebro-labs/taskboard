@@ -34,6 +34,16 @@ namespace TaskBoard.Web.Controllers.RealTime
             connectionManager.GetGroup(issueState.BoardId).deleteState(issueState.Id);
         }
 
+        public static void BroadcastUpdateState(this IConnectionManager connectionManager, IssueStateModel issueState)
+        {
+            connectionManager.GetGroup(issueState.BoardId).updateState(issueState);
+        }
+
+        public static void BroadcastUpdateStates(this IConnectionManager connectionManager, int boardId, CollectionModel<IssueStateModel> issueStates)
+        {
+            connectionManager.GetGroup(boardId).updateStates(issueStates);
+        }
+
         private static dynamic GetGroup(this IConnectionManager connectionManager, int boardId)
         {
             var boardHub = connectionManager.GetHubContext<BoardHub>();

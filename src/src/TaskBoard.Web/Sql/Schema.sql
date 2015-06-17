@@ -13,8 +13,9 @@ GO
 /****** Object:  Table [dbo].[IssueStates]    Script Date: 06/07/2015 21:39:49 ******/
 CREATE TABLE [dbo].[IssueStates](
 	[Id] [int] IDENTITY(1,1) NOT NULL,
-	[Name] [nvarchar](255) NULL,
-	[BoardId] [int] NULL,
+	[Name] [nvarchar](255) NOT NULL,
+	[BoardId] [int] NOT NULL,
+	[Order] [int] NOT NULL
 PRIMARY KEY CLUSTERED 
 (
 	[Id] ASC
@@ -26,9 +27,9 @@ CREATE TABLE [dbo].[Issues](
 	[Id] [int] IDENTITY(1,1) NOT NULL,
 	[Title] [nvarchar](1024) NOT NULL,
 	[BoardId] [int] NOT NULL,
-	[StateId] [int] NULL,
+	[StateId] [int] NOT NULL,
 	[Description] [nvarchar](max) NULL,
- CONSTRAINT [PK__Issues__3214EC07023D5A04] PRIMARY KEY CLUSTERED 
+ CONSTRAINT [PK_Issues] PRIMARY KEY CLUSTERED 
 (
 	[Id] ASC
 )

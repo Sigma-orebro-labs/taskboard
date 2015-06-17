@@ -4,20 +4,6 @@ gb.viewModels.boardViewModel = gb.viewModels.boardViewModel || {};
 
 (function () {
 
-    function addNoStateColumn(issues, columns) {
-        var issuesWithoutState = issues.filter(function (issue) {
-            return issue.stateId == null || issue.stateId == undefined;
-        });
-
-        var noStateColumn = gb.viewModels.boardColumnViewModel.create({
-            name: "No state",
-            id: null
-        }, issuesWithoutState);
-
-        // Insert first (to the left)
-        columns.splice(0, 0, noStateColumn);
-    }
-
     function createColumnViewModel(state, issuesInCurrentState) {
         return gb.viewModels.boardColumnViewModel.create(state, issuesInCurrentState);
     }
@@ -48,8 +34,6 @@ gb.viewModels.boardViewModel = gb.viewModels.boardViewModel || {};
     gb.viewModels.boardViewModel.create = function (board) {
         
         var columns = createStateColumns(board.issues, board.states);
-
-        addNoStateColumn(board.issues, columns);
 
         function addIssue(issue) {
             var column = getColumnForIssue(issue, columns);
@@ -90,12 +74,6 @@ gb.viewModels.boardViewModel = gb.viewModels.boardViewModel || {};
             return null;
         }
 
-        function getVisibleColumns() {
-            return columns.filter(function (c) {
-                return c.isVisible()
-            });
-        }
-
         function changeState(issue, state) {
             var currentColumn = getColumnForIssue(issue, columns);
             var newColumn = getColumnForState(state, columns);
@@ -107,7 +85,7 @@ gb.viewModels.boardViewModel = gb.viewModels.boardViewModel || {};
         }
 
         function removeColumnById(stateId) {
-            var column = getColumnForState({ id: stateId });
+            var column = getColumnForState({ id: stateId }, columns);
             removeColumn(column);
         }
 
@@ -138,9 +116,7 @@ gb.viewModels.boardViewModel = gb.viewModels.boardViewModel || {};
             var column = getSelectedColumn();
             var index = columns.indexOf(column);
 
-            // There is a hard coded column farthest to the left which shows issues with no
-            // defined state, if any such exist
-            if (index > 1) {
+            if (index > 0) {
                 columns.splice(index, 1);
                 columns.splice(index - 1, 0, column);
             }
@@ -150,12 +126,36 @@ gb.viewModels.boardViewModel = gb.viewModels.boardViewModel || {};
             var column = getSelectedColumn();
             var index = columns.indexOf(column);
 
-            // There is a hard coded column farthest to the left which shows issues with no
-            // defined state, if any such exist
             if (index < columns.length - 1) {
                 columns.splice(index, 1);
                 columns.splice(index + 1, 0, column);
             }
+        }
+
+        function canColumnMoveLeft(column) {
+            return column.state.order > 0;
+        }
+
+        function canColumnMoveRight(column) {
+            return column.state.order < columns.length - 1;
+        }
+
+        function updateStates(states) {
+            states.forEach(function (updatedState) {
+                var existingState = getColumnForState({ id: updatedState.id }, columns).state;
+                existingState.order = updatedState.order;
+                existingState.name = updatedState.name;
+            });
+        }
+
+        function toggleColumnSelection(column) {
+            columns.forEach(function (c) {
+                if (c != column) {
+                    c.deselect();
+                }
+            })
+
+            column.toggleSelected();
         }
 
         return {
@@ -166,7 +166,7 @@ gb.viewModels.boardViewModel = gb.viewModels.boardViewModel || {};
             removeColumnById: removeColumnById,
             states: board.states,
             name: board.name,
-            getVisibleColumns: getVisibleColumns,
+            columns: columns,
             addIssue: addIssue,
             removeIssue: removeIssue,
             removeIssueById: removeIssueById,
@@ -175,6 +175,11 @@ gb.viewModels.boardViewModel = gb.viewModels.boardViewModel || {};
             updateIssue: updateIssue,
             moveSelectedColumnLeft: moveSelectedColumnLeft,
             moveSelectedColumnRight: moveSelectedColumnRight,
+            selectedColumn: getSelectedColumn,
+            canColumnMoveLeft: canColumnMoveLeft,
+            canColumnMoveRight: canColumnMoveRight,
+            updateStates: updateStates,
+            toggleColumnSelection: toggleColumnSelection
         };
     };
 })();

@@ -18,7 +18,8 @@ namespace TaskBoard.Web.Mapping
             {
                 Id = issueState.Id,
                 Name = issueState.Name,
-                BoardId = issueState.BoardId
+                BoardId = issueState.BoardId,
+                Order = issueState.Order
             };
         }
     }

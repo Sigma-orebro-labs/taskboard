@@ -34,7 +34,7 @@ angular.module("taskboard").controller("boardController", function (
         keyBindingService.initialize();
 
         keyBindingService.register(
-            $scope.board.moveSelectedColumnLeft,
+            $scope.moveSelectedColumnLeft,
             keys.left,
             {
                 shift: true,
@@ -42,7 +42,7 @@ angular.module("taskboard").controller("boardController", function (
             });
 
         keyBindingService.register(
-            $scope.board.moveSelectedColumnRight,
+            $scope.moveSelectedColumnRight,
             keys.right,
             {
                 shift: true,
@@ -135,6 +135,38 @@ angular.module("taskboard").controller("boardController", function (
             alertService.showSuccess("Changes made to the issue have been saved")
         });
     };
+
+    $scope.moveSelectedColumnLeft = function () {
+        var column = $scope.board.selectedColumn();
+
+        if ($scope.board.canColumnMoveLeft(column)) {
+            updateState(column.state, {
+                order: column.state.order - 1
+            });
+        }
+    };
+
+    $scope.moveSelectedColumnRight = function () {
+        var column = $scope.board.selectedColumn();
+
+        if ($scope.board.canColumnMoveRight(column)) {
+            updateState(column.state, {
+                order: column.state.order + 1
+            });
+        }
+    };
+
+    function updateState(state, newValues) {
+        var newValues = newValues || {};
+        var href = gb.href("self", state);
+
+        $http(gb.formDataRequest('PUT', href, {
+            id: state.id,
+            boardId: state.boardId,
+            name: newValues.name || state.name,
+            order: newValues.order !== undefined ? newValues.order : state.order
+        }));
+    }
 
     $scope.$on("$destroy", function () {
         cleanUp();

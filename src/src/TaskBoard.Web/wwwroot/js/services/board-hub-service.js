@@ -60,6 +60,18 @@
                 });
             };
 
+            boardHub.client.updateState = function (state) {
+                console.log("Updating state: " + state.name);
+            };
+
+            boardHub.client.updateStates = function (stateCollection) {
+                console.log("Updating all states...");
+
+                $rootScope.$apply(function () {
+                    board.updateStates(stateCollection.items)
+                });
+            };
+
             //$.connection.hub.logging = true;
             connect(function () {
                 boardHub.server.subscribe(board.id);

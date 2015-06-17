@@ -14,5 +14,8 @@ namespace TaskBoard.Web.Models
 
         [JsonProperty("boardId")]
         public int BoardId { get; set; }
+
+        [JsonProperty("order")]
+        public int Order { get; set; }
     }
 }

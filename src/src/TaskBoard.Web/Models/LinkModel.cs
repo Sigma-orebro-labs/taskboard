@@ -4,6 +4,8 @@ namespace TaskBoard.Web.Models
 {
     public class LinkModel
     {
+        public LinkModel() { }
+
         public LinkModel(string rel, string prompt, string href)
         {
             Rel = rel.ToLower();
