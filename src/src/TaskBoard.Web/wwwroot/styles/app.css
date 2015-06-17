@@ -68,10 +68,19 @@ input[type=text] {
     vertical-align: top;
     margin-right: 20px;
     width: 240px;
+    padding: 10px;
+}
+
+.state-column.selected {
+    background-color: #cecece;
 }
 
 .state-column .delete-link {
     float: right;
+}
+
+.state-column li {
+    background-color: white;
 }
 
 #state-column-list {

@@ -7,7 +7,8 @@ angular.module("taskboard").controller("boardController", function (
     alertService,
     promptService,
     issueDetailsService,
-    boardHubService) {
+    boardHubService,
+    keyBindingService) {
     
     var data = {};
 
@@ -17,6 +18,41 @@ angular.module("taskboard").controller("boardController", function (
 
     function getStatesHref() {
         return gb.href("states", data.board);
+    }
+
+    function initialize(board) {
+        $scope.board = gb.viewModels.boardViewModel.create(board);
+
+        boardHubService.subscribe($scope.board);
+
+        initializeKeyBindings();
+    }
+
+    function initializeKeyBindings(board) {
+        var keys = keyBindingService.keys;
+
+        keyBindingService.initialize();
+
+        keyBindingService.register(
+            $scope.board.moveSelectedColumnLeft,
+            keys.left,
+            {
+                shift: true,
+                alt: true
+            });
+
+        keyBindingService.register(
+            $scope.board.moveSelectedColumnRight,
+            keys.right,
+            {
+                shift: true,
+                alt: true
+            });
+    }
+
+    function cleanUp() {
+        boardHubService.unsubscribe($scope.board.id);
+        keyBindingService.clear();
     }
 
     $http.get("/api/boards/" + $routeParams.id).success(function (board) {
@@ -32,13 +68,7 @@ angular.module("taskboard").controller("boardController", function (
         });
 
         $q.all([issuesPromise, statesPromise]).then(function () {
-            $scope.board = gb.viewModels.boardViewModel.create(board);
-
-            boardHubService.subscribe($scope.board);
-
-            $scope.$on("$destroy", function () {
-                boardHubService.unsubscribe(board.id);
-            });
+            initialize(board);
         });
     });
 
@@ -105,4 +135,8 @@ angular.module("taskboard").controller("boardController", function (
             alertService.showSuccess("Changes made to the issue have been saved")
         });
     };
+
+    $scope.$on("$destroy", function () {
+        cleanUp();
+    });
 });

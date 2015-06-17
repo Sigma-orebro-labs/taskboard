@@ -5,6 +5,9 @@ gb.viewModels.boardColumnViewModel = gb.viewModels.boardColumnViewModel || {};
 gb.viewModels.boardColumnViewModel.create = function (state, issues) {
 
     var issueToCreate = {};
+    var properties = {
+        isSelected: false
+    };
 
     function addIssue(issue) {
         issues.push(issue);
@@ -46,6 +49,14 @@ gb.viewModels.boardColumnViewModel.create = function (state, issues) {
         return state.name;
     }
 
+    function toggleSelected() {
+        properties.isSelected = !properties.isSelected;
+    }
+
+    function isSelected() {
+        return properties.isSelected;
+    }
+
     return {
         state: state,
         issueToCreate: issueToCreate,
@@ -56,6 +67,8 @@ gb.viewModels.boardColumnViewModel.create = function (state, issues) {
         isMatchForIssue: isMatchForIssue,
         isMatchForState: isMatchForState,
         isVisible: isVisible,
-        name: name
+        name: name,
+        toggleSelected: toggleSelected,
+        isSelected: isSelected
     };
 };

@@ -1,7 +1,7 @@
 ﻿<!--<a href="#/Boards"><h1>{{ board.name }}</h1></a>-->
 
 <ul id="state-column-list">
-    <li class="state-column" ng-repeat="column in board.getVisibleColumns()">
+    <li class="state-column" ng-repeat="column in board.getVisibleColumns()" ng-click="column.toggleSelected()" ng-class="{ selected: column.isSelected() }">
         <i class="delete-link fa fa-trash" ng-click="deleteColumn(column)"></i>
 
         <h2>{{ column.name() }}</h2>

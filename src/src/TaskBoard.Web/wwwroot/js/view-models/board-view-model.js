@@ -128,6 +128,36 @@ gb.viewModels.boardViewModel = gb.viewModels.boardViewModel || {};
             issue.description = updatedIssue.description;
         }
 
+        function getSelectedColumn() {
+            return _.find(columns, function (c) {
+                return c.isSelected()
+            });
+        }
+
+        function moveSelectedColumnLeft() {
+            var column = getSelectedColumn();
+            var index = columns.indexOf(column);
+
+            // There is a hard coded column farthest to the left which shows issues with no
+            // defined state, if any such exist
+            if (index > 1) {
+                columns.splice(index, 1);
+                columns.splice(index - 1, 0, column);
+            }
+        }
+
+        function moveSelectedColumnRight() {
+            var column = getSelectedColumn();
+            var index = columns.indexOf(column);
+
+            // There is a hard coded column farthest to the left which shows issues with no
+            // defined state, if any such exist
+            if (index < columns.length - 1) {
+                columns.splice(index, 1);
+                columns.splice(index + 1, 0, column);
+            }
+        }
+
         return {
             id: board.id,
             columns: columns,
@@ -142,7 +172,9 @@ gb.viewModels.boardViewModel = gb.viewModels.boardViewModel || {};
             removeIssueById: removeIssueById,
             changeState: changeState,
             addIssue: addIssue,
-            updateIssue: updateIssue
+            updateIssue: updateIssue,
+            moveSelectedColumnLeft: moveSelectedColumnLeft,
+            moveSelectedColumnRight: moveSelectedColumnRight,
         };
     };
 })();
