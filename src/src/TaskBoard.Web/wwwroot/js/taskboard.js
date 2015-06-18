@@ -27,13 +27,3 @@ app.config(['$routeProvider', function ($routeProvider) {
           redirectTo: '/boards'
       });
 }]);
-
-function renderButton() {
-    gapi.signin2.render('login-container', {
-        'width': 200,
-        'height': 50,
-        'longtitle': true,
-        'theme': 'dark',
-        'onsuccess': onSignIn
-    });
-}

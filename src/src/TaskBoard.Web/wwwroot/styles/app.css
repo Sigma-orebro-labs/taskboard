@@ -69,6 +69,38 @@ input[type=text] {
     display: inline-block;
 }
 
+#google-sign-in-button {
+    display: inline-block;
+    background: #4285f4;
+    color: white;
+    width: 260px;
+    border-radius: 5px;
+    white-space: nowrap;
+    cursor: pointer;
+}
+
+#google-logo {
+    background: url('/img/g-normal.png') transparent 5px 50% no-repeat;
+    display: inline-block;
+    vertical-align: middle;
+    width: 42px;
+    height: 42px;
+    border-right: #2265d4 1px solid;
+}
+
+#google-text-label {
+    display: inline-block;
+    vertical-align: middle;
+    padding-left: 42px;
+    padding-right: 42px;
+    font-weight: 700;
+    font-size: 16px;
+    line-height: 48px;
+    text-align: center;
+    /* Use the Roboto font that is loaded in the <head> */
+    font-family: Roboto,arial,sans-serif;
+} 
+
 .create-issue-form [type=submit], #create-board-form [type=submit] {
     display: none;
 }

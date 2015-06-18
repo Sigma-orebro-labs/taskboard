@@ -4,5 +4,5 @@
         $location.path('/boards');
     });
 
-    renderButton();
+    gb.initializeGoogleSigning();
 });
