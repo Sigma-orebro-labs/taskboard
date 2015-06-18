@@ -6,8 +6,18 @@
         $window.onSignIn = function (googleUser) {
             console.log("User logged in with Google");
 
+            var profile = googleUser.getBasicProfile();
+
+            console.log('ID: ' + profile.getId());
+            console.log('Name: ' + profile.getName());
+            console.log('Image URL: ' + profile.getImageUrl());
+            console.log('Email: ' + profile.getEmail());
+
             onSignInCallbacks.forEach(function (c) {
-                $rootScope.$apply(c || gb.noop);
+                var callback = c || gb.noop;
+                $rootScope.$apply(function () {
+                    callback(profile);
+                });
             });
         }
 
