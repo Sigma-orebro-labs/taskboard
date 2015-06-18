@@ -4,6 +4,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="google-signin-client_id" content="446692708935-7vh1ofnvo36o48k29mauhdi43jbo717i.apps.googleusercontent.com">
 
     <!--<link rel="icon" sizes="196x196" href="images/icon_196.png">
     <link rel="apple-touch-icon" href="images/icon_196.png " />
@@ -18,6 +19,10 @@
     <title>Sigma Task Board</title>
 </head>
 <body ng-app="taskboard" ng-controller='appController'>
+
+    <aside id="account" ng-controller="accountController">
+        <a id="sign-out" ng-if="isSignedIn()" ng-click="signOut()">Sign out</a>
+    </aside>
 
     <header id="main-header">
         <a href="#/Boards"><h1>Sigma Task Board</h1></a>
@@ -34,6 +39,7 @@
         </alert>
     </aside>
 
+    <script src="https://apis.google.com/js/platform.js?onload=renderButton"></script>
     <script type='text/javascript' src='../js/lib/angular.js'></script>
     <script type='text/javascript' src='../js/lib/angular-route.js'></script>
     <script type='text/javascript' src='../js/lib/angular-touch.js'></script>
@@ -49,8 +55,11 @@
     <script type='text/javascript' src='../js/services/board-hub-service.js'></script>
     <script type='text/javascript' src='../js/services/issue-details-service.js'></script>
     <script type='text/javascript' src='../js/services/keybinding-service.js'></script>
+    <script type='text/javascript' src='../js/services/auth-service.js'></script>
     <script type='text/javascript' src='../js/controller-common.js'></script>
     <script type='text/javascript' src='../js/app-controller.js'></script>
+    <script type='text/javascript' src='../js/account-controller.js'></script>
+    <script type='text/javascript' src='../js/login-controller.js'></script>
     <script type='text/javascript' src='../js/alert-controller.js'></script>
     <script type='text/javascript' src='../js/issue-details-controller.js'></script>
     <script type='text/javascript' src='../js/boards-controller.js'></script>

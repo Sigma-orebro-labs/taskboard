@@ -36,6 +36,39 @@ input[type=text] {
     text-decoration: none;
 }
 
+#sign-out {
+    padding: 10px;
+    border: 1px solid #cecece;
+    width: 100%;
+    display: inline-block;
+    margin-top: 10px;
+    color: black;
+    font-weight: bold;
+    text-align: right;
+    padding-right: 15px;
+    border-color: #cecece;
+    cursor: pointer;
+}
+
+#sign-out:hover {
+    text-decoration: none;
+}
+
+#account {
+    position: absolute;
+    right: 0;
+    top: 0;
+    margin: 10px;
+}
+
+#login-container {
+    text-align: center;
+}
+
+#login-container > div {
+    display: inline-block;
+}
+
 .create-issue-form [type=submit], #create-board-form [type=submit] {
     display: none;
 }
