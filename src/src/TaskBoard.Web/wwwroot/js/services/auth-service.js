@@ -3,7 +3,7 @@
 
         var onSignInCallbacks = [];
 
-        $window.onSignIn = function (googleUser) {
+        $window.onGoogleSignIn = function (googleUser) {
             console.log("User logged in with Google");
 
             var profile = googleUser.getBasicProfile();
