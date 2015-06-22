@@ -43,6 +43,9 @@ namespace TaskBoard.Web
         {
             loggerFactory.AddConsole();
 
+            // The environment name is fetched from the environment variable or app setting ASPNET_ENV.
+            // By default this setting is "Development" when running through Visual Studio.
+            // In the Azure production environment there is an app setting which sets ASPNET_ENV to "Production"
             if (environment.EnvironmentName.ToLower() == "development")
             {
                 app.UseErrorPage(ErrorPageOptions.ShowAll);
