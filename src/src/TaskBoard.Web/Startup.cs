@@ -9,6 +9,7 @@ using Microsoft.Framework.ConfigurationModel;
 using Microsoft.AspNet.Diagnostics;
 using Microsoft.Framework.Logging;
 using TaskBoard.Web.Infrastructure.Middleware;
+using Microsoft.AspNet.Hosting;
 
 namespace TaskBoard.Web
 {
@@ -38,14 +39,19 @@ namespace TaskBoard.Web
             });
         }
 
-        public void Configure(IApplicationBuilder app, ILoggerFactory loggerFactory)
+        public void Configure(IApplicationBuilder app, ILoggerFactory loggerFactory, IHostingEnvironment environment)
         {
             loggerFactory.AddConsole();
 
-#if !DEBUG
-            app.UseHttpsRedirect()
-               .UseErrorPage(ErrorPageOptions.ShowAll);
-#endif
+            if (environment.EnvironmentName.ToLower() == "development")
+            {
+                app.UseErrorPage(ErrorPageOptions.ShowAll);
+            }
+            else
+            {
+                // Force all requests to go through HTTPS in all environments except for development
+                app.UseHttpsRedirect();
+            }
 
             app.UseMvc()
                .UseStaticFiles()
