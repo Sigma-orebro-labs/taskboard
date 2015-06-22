@@ -6,6 +6,9 @@ using Microsoft.AspNet.Mvc;
 using Newtonsoft.Json.Serialization;
 using Microsoft.Data.Entity;
 using Microsoft.Framework.ConfigurationModel;
+using Microsoft.AspNet.Diagnostics;
+using Microsoft.Framework.Logging;
+using TaskBoard.Web.Infrastructure.Middleware;
 
 namespace TaskBoard.Web
 {
@@ -35,8 +38,15 @@ namespace TaskBoard.Web
             });
         }
 
-        public void Configure(IApplicationBuilder app)
+        public void Configure(IApplicationBuilder app, ILoggerFactory loggerFactory)
         {
+            loggerFactory.AddConsole();
+
+#if !DEBUG
+            app.UseHttpsRedirect()
+               .UseErrorPage(ErrorPageOptions.ShowAll);
+#endif
+
             app.UseMvc()
                .UseStaticFiles()
                .UseWebSockets()
