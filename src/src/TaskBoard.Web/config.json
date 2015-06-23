@@ -1,7 +1,7 @@
 ﻿{
   "Data": {
     "DefaultConnection": {
-      "ConnectionString": "Server=.;Database=TaskBoard;User Id=taskboard_user;Password=me$syMask25;"
+      "ConnectionString": "Server=.;Database=TaskBoard;User Id=taskboard_app_user;Password=me$syMask25;"
     }
   },
   "EntityFramework": {

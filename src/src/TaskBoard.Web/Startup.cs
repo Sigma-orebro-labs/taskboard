@@ -4,8 +4,6 @@ using Microsoft.Framework.DependencyInjection;
 using TaskBoard.Web.Infrastructure;
 using Microsoft.AspNet.Mvc;
 using Newtonsoft.Json.Serialization;
-using Microsoft.Data.Entity;
-using Microsoft.Framework.ConfigurationModel;
 using Microsoft.AspNet.Diagnostics;
 using Microsoft.Framework.Logging;
 using TaskBoard.Web.Infrastructure.Middleware;
