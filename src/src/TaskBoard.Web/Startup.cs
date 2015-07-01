@@ -8,11 +8,25 @@ using Microsoft.AspNet.Diagnostics;
 using Microsoft.Framework.Logging;
 using TaskBoard.Web.Infrastructure.Middleware;
 using Microsoft.AspNet.Hosting;
+using Microsoft.Data.Entity;
+using Microsoft.Framework.Configuration;
+using Microsoft.Framework.Runtime;
 
 namespace TaskBoard.Web
 {
     public class Startup
     {
+        public Startup(IHostingEnvironment env, IApplicationEnvironment appEnv)
+        {
+            var configurationBuilder = new ConfigurationBuilder(appEnv.ApplicationBasePath)
+               .AddJsonFile("config.json")
+               .AddEnvironmentVariables();
+
+            Configuration = configurationBuilder.Build();
+        }
+
+        public IConfiguration Configuration { get; set; }
+
         // For more information on how to configure your application, visit http://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
@@ -20,16 +34,21 @@ namespace TaskBoard.Web
                 .Configure<MvcOptions>(options =>
                 {
                     options.OutputFormatters
-                        .Select(x => x.Instance)
                         .OfType<JsonOutputFormatter>()
                         .First()
                         .SerializerSettings
                         .ContractResolver = new CamelCasePropertyNamesContractResolver();
                 });
 
-            services.AddEntityFramework()
+            // The development connection string is defined in the config.json file.
+            // The connection strings for the Azure web app(s) are defined in the web app
+            // settings in the Azure portal
+            var connectionString = Configuration["Data:DefaultConnection:ConnectionString"];
+
+            services
+                .AddEntityFramework()
                 .AddSqlServer()
-                .AddDbContext<BoardContext>();
+                .AddDbContext<BoardContext>(x => x.UseSqlServer(connectionString));
 
             services.AddSignalR(options =>
             {

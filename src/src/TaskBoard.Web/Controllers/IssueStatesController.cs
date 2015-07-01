@@ -1,13 +1,11 @@
 ﻿using TaskBoard.Web.Controllers.Results;
 using TaskBoard.Web.Entities;
 using TaskBoard.Web.Infrastructure;
-using TaskBoard.Web.Mapping;
 using TaskBoard.Web.Models;
 using Microsoft.AspNet.Mvc;
 using System.Linq;
 using Microsoft.AspNet.SignalR.Infrastructure;
 using TaskBoard.Web.Controllers.RealTime;
-using System;
 using System.Collections.Generic;
 
 namespace TaskBoard.Web.Controllers
@@ -16,36 +14,33 @@ namespace TaskBoard.Web.Controllers
     public class IssueStatesController : BaseController
     {
         private IConnectionManager _connectionManager;
+        private BoardContext _context;
 
-        public IssueStatesController(IConnectionManager connectionManager)
+        public IssueStatesController(IConnectionManager connectionManager, BoardContext boardContext)
+            : base(boardContext)
         {
             _connectionManager = connectionManager;
+            _context = boardContext;
         }
 
         [HttpGet("{id}", Name = "StateById")]
         public IActionResult Get(int id)
         {
-            using (var context = new BoardContext())
-            {
-                var state = context.IssueStates.FirstOrDefault(x => x.Id == id);
+            var state = _context.IssueStates.FirstOrDefault(x => x.Id == id);
 
-                if (state == null)
-                    return HttpNotFound();
+            if (state == null)
+                return HttpNotFound();
 
-                return Result.Object(state);
-            }
+            return Result.Object(state);
         }
 
         // GET api/values/5
         [HttpGet("~/api/boards/{boardId}/states", Name = "StatesByBoardId")]
         public CollectionModel<IssueStateModel> GetByBoardId(int boardId)
         {
-            using (var context = new BoardContext())
-            {
-                var issueStates = context.IssueStates.Where(x => x.BoardId == boardId);
+            var issueStates = _context.IssueStates.Where(x => x.BoardId == boardId);
 
-                return Collection(boardId, issueStates);
-            }
+            return Collection(boardId, issueStates);
         }
 
         [HttpPost("~/api/boards/{boardId}/states")]
@@ -57,12 +52,8 @@ namespace TaskBoard.Web.Controllers
                 BoardId = boardId
             };
 
-            using (var context = new BoardContext())
-            {
-                context.IssueStates.Add(state);
-
-                context.SaveChanges();
-            }
+            _context.IssueStates.Add(state);
+            _context.SaveChanges();
 
             _connectionManager.BroadcastAddState(Result.ToModel(state));
 
@@ -76,32 +67,29 @@ namespace TaskBoard.Web.Controllers
         [HttpPut("{id}")]
         public IActionResult Put(IssueStateModel model)
         {
-            using (var context = new BoardContext())
+            IList<IssueState> allStatesForBoard = null;
+
+            // Make sure that the id and board id match an existing state
+            var stateToUpdate = _context.IssueStates.FirstOrDefault(x => x.Id == model.Id && x.BoardId == model.BoardId);
+
+            if (stateToUpdate == null)
+                return new HttpNotFoundResult();
+
+            if (model.Order != stateToUpdate.Order)
             {
-                IList<IssueState> allStatesForBoard = null;
-
-                // Make sure that the id and board id match an existing state
-                var stateToUpdate = context.IssueStates.FirstOrDefault(x => x.Id == model.Id && x.BoardId == model.BoardId);
-
-                if (stateToUpdate == null)
-                    return new HttpNotFoundResult();
-
-                if (model.Order != stateToUpdate.Order)
-                {
-                    allStatesForBoard = UpdateOrder(model, stateToUpdate, context);
-                }
-
-                stateToUpdate.Name = model.Name;
-
-                context.SaveChanges();
-
-                var wasOrderUpdated = allStatesForBoard != null;
-
-                if (wasOrderUpdated)
-                    _connectionManager.BroadcastUpdateStates(stateToUpdate.BoardId, Collection(stateToUpdate.BoardId, allStatesForBoard));
-                else
-                    _connectionManager.BroadcastUpdateState(Result.ToModel(stateToUpdate));
+                allStatesForBoard = UpdateOrder(model, stateToUpdate, _context);
             }
+
+            stateToUpdate.Name = model.Name;
+
+            _context.SaveChanges();
+
+            var wasOrderUpdated = allStatesForBoard != null;
+
+            if (wasOrderUpdated)
+                _connectionManager.BroadcastUpdateStates(stateToUpdate.BoardId, Collection(stateToUpdate.BoardId, allStatesForBoard));
+            else
+                _connectionManager.BroadcastUpdateState(Result.ToModel(stateToUpdate));
 
             return new NoContentResult();
         }

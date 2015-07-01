@@ -10,28 +10,30 @@ namespace TaskBoard.Web.Controllers
     [Route("api/boards")]
     public class BoardsController : BaseController
     {
+        private BoardContext _context;
+
+        public BoardsController(BoardContext boardContext)
+            : base(boardContext)
+        {
+            _context = boardContext;
+        }
+
         [HttpGet(Name = "Boards")]
         public CollectionModel<BoardModel> Get()
         {
-            using (var context = new BoardContext())
-            {
-                var href = Url.Link("Boards", null);
-                return Result.Collection(href, context.Boards);
-            }
+            var href = Url.Link("Boards", null);
+            return Result.Collection(href, _context.Boards);
         }
 
         [HttpGet("{id}", Name = "BoardById")]
         public IActionResult Get(int id)
         {
-            using (var context = new BoardContext())
-            {
-                var board = context.Boards.FirstOrDefault(x => x.Id == id);
+            var board = _context.Boards.FirstOrDefault(x => x.Id == id);
 
-                if (board == null)
-                    return HttpNotFound();
+            if (board == null)
+                return HttpNotFound();
 
-                return Result.Object(board);
-            }
+            return Result.Object(board);
         }
 
         [HttpPost]
@@ -42,12 +44,8 @@ namespace TaskBoard.Web.Controllers
                 Name = name
             };
 
-            using (var context = new BoardContext())
-            {
-                context.Boards.Add(board);
-
-                context.SaveChanges();
-            }
+            _context.Boards.Add(board);
+            _context.SaveChanges();
 
             return Result.Created(board);
         }

@@ -16,10 +16,13 @@ namespace TaskBoard.Web.Controllers
     public class IssuesController : BaseController
     {
         private IConnectionManager _connectionManager;
+        private BoardContext _context;
 
-        public IssuesController(IConnectionManager connectionManager)
+        public IssuesController(IConnectionManager connectionManager, BoardContext boardContext)
+            : base(boardContext)
         {
             _connectionManager = connectionManager;
+            _context = boardContext;
         }
 
         [HttpGet(Name = "Issues")]
@@ -32,15 +35,12 @@ namespace TaskBoard.Web.Controllers
         [HttpGet("{id}", Name = "IssueById")]
         public IActionResult Get(int id)
         {
-            using (var context = new BoardContext())
-            {
-                var issue = context.Issues.FirstOrDefault(x => x.Id == id);
+            var issue = _context.Issues.FirstOrDefault(x => x.Id == id);
 
-                if (issue == null)
-                    return HttpNotFound();
+            if (issue == null)
+                return HttpNotFound();
 
-                return Result.Object(issue);
-            }
+            return Result.Object(issue);
         }
 
         // GET api/values/5
@@ -61,12 +61,8 @@ namespace TaskBoard.Web.Controllers
                 StateId = stateId
             };
 
-            using (var context = new BoardContext())
-            {
-                context.Issues.Add(issue);
-
-                context.SaveChanges();
-            }
+            _context.Issues.Add(issue);
+            _context.SaveChanges();
 
             var issueModel = Result.ToModel(issue);
             _connectionManager.BroadcastAddIssue(issueModel);
@@ -77,17 +73,14 @@ namespace TaskBoard.Web.Controllers
         [HttpPost("~/api/boards/{boardId}/issues/{issueId}/statetransitions", Name = "IssueStateTransitions")]
         public IActionResult Post(int boardId, int issueId, int stateId)
         {
-            using (var context = new BoardContext())
-            {
-                var issue = context.Issues.FirstOrDefault(x => x.Id == issueId);
+            var issue = _context.Issues.FirstOrDefault(x => x.Id == issueId);
 
-                if (issue == null)
-                    return HttpNotFound();
+            if (issue == null)
+                return HttpNotFound();
 
-                issue.StateId = stateId;
+            issue.StateId = stateId;
 
-                context.SaveChanges();
-            }
+            _context.SaveChanges();
 
             return new NoContentResult();
         }
@@ -95,23 +88,20 @@ namespace TaskBoard.Web.Controllers
         [HttpPut("{id}")]
         public IActionResult Put(int id, string title, string description)
         {
-            using (var context = new BoardContext())
-            {
-                var issue = context.Issues.FirstOrDefault(x => x.Id == id);
+            var issue = _context.Issues.FirstOrDefault(x => x.Id == id);
 
-                if (issue == null)
-                    return HttpNotFound();
+            if (issue == null)
+                return HttpNotFound();
 
-                issue.Title = title;
-                issue.Description = description;
+            issue.Title = title;
+            issue.Description = description;
 
-                context.SaveChanges();
+            _context.SaveChanges();
 
-                var issueModel = Result.ToModel(issue);
-                _connectionManager.BroadcastUpdateIssue(issueModel);
+            var issueModel = Result.ToModel(issue);
+            _connectionManager.BroadcastUpdateIssue(issueModel);
 
-                return Result.Object(issue);
-            }
+            return Result.Object(issue);
         }
 
         [HttpDelete("{id}")]
@@ -126,15 +116,12 @@ namespace TaskBoard.Web.Controllers
 
         private CollectionModel<IssueModel> GetCollection(string href, Expression<Func<Issue, bool>> predicate = null)
         {
-            using (var context = new BoardContext())
-            {
-                IQueryable<Issue> issues = context.Issues;
+            IQueryable<Issue> issues = _context.Issues;
 
-                if (predicate != null)
-                    issues = issues.Where(predicate);
+            if (predicate != null)
+                issues = issues.Where(predicate);
 
-                return Result.Collection(href, issues);
-            }
+            return Result.Collection(href, issues);
         }
         private IssueModelResultFactory Result
         {
