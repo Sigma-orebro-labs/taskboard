@@ -64,6 +64,12 @@
                 console.log("Updating state: " + state.name);
             };
 
+            boardHub.client.changeState = function (issue) {
+                $rootScope.$apply(function() {
+                    board.changeState(issue.id, issue.stateId);
+                });
+            }
+
             boardHub.client.updateStates = function (stateCollection) {
                 console.log("Updating all states...");
 

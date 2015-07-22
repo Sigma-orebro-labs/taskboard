@@ -1,9 +1,11 @@
 ﻿using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using Microsoft.AspNet.SignalR.Infrastructure;
 using TaskBoard.Domain.Entities;
 using TaskBoard.Web.Controllers.RealTime;
 using TaskBoard.Web.Controllers.Results;
+using TaskBoard.Web.Mapping;
 using TaskBoard.Web.Models;
 using System;
 using System.Linq;
@@ -66,6 +68,7 @@ namespace TaskBoard.Web.Controllers
             issue.StateId = postedModel.StateId;
 
             Context.SaveChanges();
+            ConnectionManager.BroadcastChangeState(Result.ToModel(issue));
 
             return new HttpResponseMessage(HttpStatusCode.NoContent);
         }

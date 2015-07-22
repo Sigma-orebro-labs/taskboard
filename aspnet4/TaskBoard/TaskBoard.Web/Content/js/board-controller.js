@@ -129,7 +129,6 @@ angular.module("taskboard").controller("boardController", function (
         };
 
         $http.post(href, stateTransition).success(function () {
-            $scope.board.changeState(issue, state);
         });
     };
 

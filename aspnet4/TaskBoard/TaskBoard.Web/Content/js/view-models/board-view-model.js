@@ -74,14 +74,16 @@ gb.viewModels.boardViewModel = gb.viewModels.boardViewModel || {};
             return null;
         }
 
-        function changeState(issue, state) {
+        function changeState(issueId, stateId) {
+
+            var issue = getIssueById(issueId);
             var currentColumn = getColumnForIssue(issue, columns);
-            var newColumn = getColumnForState(state, columns);
+            var newColumn = getColumnForState({ id: stateId }, columns);
 
             currentColumn.removeIssue(issue);
             newColumn.addIssue(issue);
 
-            issue.stateId = state.id;
+            issue.stateId = stateId;
         }
 
         function removeColumnById(stateId) {

@@ -15,6 +15,11 @@ namespace TaskBoard.Web.Controllers.RealTime
             connectionManager.GetGroup(issue.BoardId).updateIssue(issue);
         }
 
+        public static void BroadcastChangeState(this IConnectionManager connectionManager, IssueModel issue)
+        {
+            connectionManager.GetGroup(issue.BoardId).changeState(issue);
+        }
+
         public static void BroadcastDeleteIssue(this IConnectionManager connectionManager, IssueModel issue)
         {
             connectionManager.GetGroup(issue.BoardId).deleteIssue(issue.Id);
