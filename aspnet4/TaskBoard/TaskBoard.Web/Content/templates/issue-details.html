@@ -1,0 +1,14 @@
+﻿<header class="modal-header">
+    <h3 class="modal-title" editable-text="issue.title">{{ issue.title }}</h3>
+</header>
+
+<section class="modal-body">
+    <p editable-text="issue.description">{{ issue.description || "Click here to enter description..." }}</p>
+</section>
+
+<footer class="modal-footer">
+    <a class="btn btn-primary" ng-click="save()">Save</a>
+    <a class="btn btn-default" ng-click="cancel()">Cancel</a>
+</footer>
+
+

@@ -1,0 +1,73 @@
+﻿<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="google-signin-client_id" content="446692708935-7vh1ofnvo36o48k29mauhdi43jbo717i.apps.googleusercontent.com">
+
+    <!--<link rel="icon" sizes="196x196" href="images/icon_196.png">
+    <link rel="apple-touch-icon" href="images/icon_196.png " />
+    <link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon">-->
+
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet" type="text/css">
+    <link rel='stylesheet' href='/Content/styles/lib/font-awesome-4.2.0/css/font-awesome.min.css' />
+    <link rel='stylesheet' href='/Content/styles/lib/bootstrap-3.3.4-dist/css/bootstrap.min.css' />
+    <link rel='stylesheet' href='/Content/lib/angular-xeditable-0.1.8/css/xeditable.css' />
+    <!--<link rel=' stylesheet' href='../styles/reset.css' />-->
+    <link rel='stylesheet' href='/Content/styles/app.css' />
+
+    <title>Sigma Task Board</title>
+</head>
+<body ng-app="taskboard" ng-controller='appController'>
+
+    <aside id="account" ng-controller="accountController">
+        <a id="sign-out" ng-if="isSignedIn()" ng-click="signOut()">Sign out</a>
+    </aside>
+
+    <header id="main-header">
+        <a href="#/Boards"><h1>Sigma Task Board</h1></a>
+    </header>
+
+    <section id="view-container" ng-view></section>
+
+    <aside id="alerts" ng-controller="AlertController">
+        <alert ng-repeat="alert in alerts" type="{{alert.type}}">
+            {{alert.msg}}
+            <button type="button" class="close" data-dismiss="alert" ng-if="alert.isClosable" ng-click="closeAlert(alert)">
+                <span aria-hidden="true">&times;  </span><span class="sr-only">Close</span>
+            </button>
+        </alert>
+    </aside>
+
+    <script src="https://apis.google.com/js/api:client.js"></script>
+
+    <script type='text/javascript' src='/Content/js/lib/angular.js'></script>
+    <script type='text/javascript' src='/Content/js/lib/angular-route.js'></script>
+    <script type='text/javascript' src='/Content/js/lib/angular-touch.js'></script>
+    <script type='text/javascript' src='/Content/js/lib/ui-bootstrap-tpls-0.13.0.min.js'></script>
+    <script type='text/javascript' src='/Content/lib/angular-xeditable-0.1.8/js/xeditable.min.js'></script>
+    <script type='text/javascript' src='/Content/js/lib/lodash.js'></script>
+    <script type='text/javascript' src='/Content/js/lib/jquery-2.1.4.min.js'></script>
+    <script type='text/javascript' src='/Content/js/lib/jquery.signalR-2.2.0.min.js'></script>
+    <script type="text/javascript" src='/signalr/hubs'></script>
+    <script type='text/javascript' src='/Content/js/google-signin.js'></script>
+    <script type='text/javascript' src='/Content/js/taskboard.js'></script>
+    <script type='text/javascript' src='/Content/js/services/alert-service.js'></script>
+    <script type='text/javascript' src='/Content/js/services/prompt-service.js'></script>
+    <script type='text/javascript' src='/Content/js/services/board-hub-service.js'></script>
+    <script type='text/javascript' src='/Content/js/services/issue-details-service.js'></script>
+    <script type='text/javascript' src='/Content/js/services/keybinding-service.js'></script>
+    <script type='text/javascript' src='/Content/js/services/auth-service.js'></script>
+    <script type='text/javascript' src='/Content/js/controller-common.js'></script>
+    <script type='text/javascript' src='/Content/js/app-controller.js'></script>
+    <script type='text/javascript' src='/Content/js/account-controller.js'></script>
+    <script type='text/javascript' src='/Content/js/login-controller.js'></script>
+    <script type='text/javascript' src='/Content/js/alert-controller.js'></script>
+    <script type='text/javascript' src='/Content/js/issue-details-controller.js'></script>
+    <script type='text/javascript' src='/Content/js/boards-controller.js'></script>
+    <script type='text/javascript' src='/Content/js/board-controller.js'></script>
+    <script type='text/javascript' src='/Content/js/view-models/board-view-model.js'></script>
+    <script type='text/javascript' src='/Content/js/view-models/board-column-view-model.js'></script>
+</body>
+</html>

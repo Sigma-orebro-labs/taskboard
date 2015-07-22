@@ -1,0 +1,175 @@
+.nav, .pagination, .carousel, .panel-title a { 
+    cursor: pointer; 
+}
+
+h1 {
+    font-size: 30px;
+}
+
+ul {
+    list-style: none;
+    padding-left: 0;
+}
+
+i {
+    cursor: pointer;
+}
+
+a {
+    cursor: pointer;
+}
+
+input[type=text] {
+    padding-left: 5px;
+}
+
+#view-container {
+    padding-left: 20px;
+}
+
+#main-header {
+    padding-left: 20px;
+}
+
+#main-header a, #main-header a:hover, #main-header a:visited {
+    color: black;
+    text-decoration: none;
+}
+
+#sign-out {
+    padding: 10px;
+    border: 1px solid #cecece;
+    width: 100%;
+    display: inline-block;
+    margin-top: 10px;
+    color: black;
+    font-weight: bold;
+    text-align: right;
+    padding-right: 15px;
+    border-color: #cecece;
+    cursor: pointer;
+}
+
+#sign-out:hover {
+    text-decoration: none;
+}
+
+#account {
+    position: absolute;
+    right: 0;
+    top: 0;
+    margin: 10px;
+}
+
+#login-container {
+    text-align: center;
+}
+
+#login-container > div {
+    display: inline-block;
+}
+
+#google-sign-in-button {
+    display: inline-block;
+    background: #4285f4;
+    color: white;
+    width: 260px;
+    border-radius: 5px;
+    white-space: nowrap;
+    cursor: pointer;
+}
+
+#google-logo {
+    background: url('/img/g-normal.png') transparent 5px 50% no-repeat;
+    display: inline-block;
+    vertical-align: middle;
+    width: 42px;
+    height: 42px;
+    border-right: #2265d4 1px solid;
+}
+
+#google-text-label {
+    display: inline-block;
+    vertical-align: middle;
+    padding-left: 42px;
+    padding-right: 42px;
+    font-weight: 700;
+    font-size: 16px;
+    line-height: 48px;
+    text-align: center;
+    /* Use the Roboto font that is loaded in the <head> */
+    font-family: Roboto,arial,sans-serif;
+} 
+
+.create-issue-form [type=submit], #create-board-form [type=submit] {
+    display: none;
+}
+
+.create-issue-form input {
+    display: inline-block;
+    width: 100%;
+}
+
+.issue {
+    border: 1px solid black;
+    width: 100%;
+    box-sizing: border-box;
+    display: inline-block;
+    margin-bottom: 10px;
+    padding: 10px;
+}
+
+.issue menu {
+    margin-top: 15px;
+}
+
+.issue menu li {
+    display: inline-block;
+    margin-right: 10px;
+}
+
+.state-column {
+    display: inline-block;
+    vertical-align: top;
+    margin-right: 20px;
+    width: 240px;
+    padding: 10px;
+}
+
+.state-column.selected {
+    background-color: #cecece;
+}
+
+.state-column .delete-link {
+    float: right;
+}
+
+.state-column li {
+    background-color: white;
+}
+
+#state-column-list {
+    padding-left: 0;
+    display: inline-block;
+    vertical-align: top;
+}
+
+#state-column-list h2 {
+    margin-top: 0;
+}
+
+#create-state-form {
+    display: inline-block;
+    margin-top: 20px;
+    vertical-align: top;
+}
+
+#create-state-form [type=submit] {
+    display: none;
+}
+
+#alerts {
+    position: fixed;
+    right: 10px;
+    top: 10px;
+}
