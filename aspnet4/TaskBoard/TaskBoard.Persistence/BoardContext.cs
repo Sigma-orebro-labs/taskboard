@@ -1,4 +1,6 @@
-﻿using System.Data.Entity;
+﻿using System;
+using System.Data.Entity;
+using System.Data.Entity.Infrastructure;
 using TaskBoard.Domain.Entities;
 using TaskBoard.Web.Infrastructure.Extensions;
 
@@ -6,8 +8,13 @@ namespace TaskBoard.Persistence
 {
     public class BoardContext : DbContext
     {
-        public BoardContext() : base("DefaultConnection")
+        public BoardContext() : base(GetConnectionStringOrName())
         {
+        }
+
+        private static string GetConnectionStringOrName()
+        {
+            return Environment.GetEnvironmentVariable("SQLCONNSTR_DefaultConnection") ?? "DefaultConnection";
         }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)

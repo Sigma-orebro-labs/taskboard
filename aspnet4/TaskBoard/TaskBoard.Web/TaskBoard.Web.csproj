@@ -181,6 +181,8 @@
     <Content Include="Content\styles\lib\font-awesome-4.2.0\fonts\fontawesome-webfont.ttf" />
     <Content Include="Content\styles\lib\font-awesome-4.2.0\fonts\fontawesome-webfont.woff" />
     <Content Include="Content\styles\lib\font-awesome-4.2.0\fonts\FontAwesome.otf" />
+    <None Include="Properties\PublishProfiles\sigmataskboard - FTP.pubxml" />
+    <None Include="Properties\PublishProfiles\sigmataskboard - Web Deploy.pubxml" />
     <None Include="Scripts\jquery-1.6.4-vsdoc.js" />
     <Content Include="Scripts\jquery-1.6.4.js" />
     <Content Include="Scripts\jquery-1.6.4.min.js" />

@@ -36,6 +36,7 @@
 
         function clear() {
             document.removeEventListener("keypress", dispatch, false);
+            handlers.length = 0;
         }
 
         var keys = {

@@ -35,10 +35,15 @@ namespace TaskBoard.Web.Controllers
         [Route("~/api/boards/{boardId}/states")]
         public IHttpActionResult Post(int boardId, IssueStateModel postedModel)
         {
+            var previousMaxOrderValue = Context.IssueStates
+                .Where(x => x.BoardId == boardId)
+                .Max(x => x.Order);
+
             var state = new IssueState
             {
                 Name = postedModel.Name,
-                BoardId = boardId
+                BoardId = boardId,
+                Order = previousMaxOrderValue + 1
             };
 
             Context.IssueStates.Add(state);
