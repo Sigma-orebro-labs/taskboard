@@ -156,6 +156,8 @@ input[type=text] {
 
 #state-column-list h2 {
     margin-top: 0;
+    width: 100%;
+    cursor: pointer;
 }
 
 #create-state-form {

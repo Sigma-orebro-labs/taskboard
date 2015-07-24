@@ -3,12 +3,11 @@
 <ul id="state-column-list">
     <li class="state-column" 
         ng-repeat="column in board.columns | orderBy: 'state.order'" 
-        ng-click="board.toggleColumnSelection(column)" 
         ng-class="{ selected: column.isSelected() }">
 
         <i class="delete-link fa fa-trash" ng-click="deleteColumn(column)"></i>
 
-        <h2>{{ column.name() }}</h2>
+        <h2 ng-click="board.toggleColumnSelection(column)">{{ column.name() }}</h2>
 
         <form class="create-issue-form" ng-submit="createIssue(column)">
             <input type="text" name="name" placeholder="Add new issue" ng-model="column.issueToCreate.title" required />
